@@ -80,7 +80,7 @@ export default function CollectionSection() {
         </div>
 
         {/* Collections grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 lg:gap-10">
           {collections.map((collection, index) => (
             <CollectionCard
               key={collection.id}

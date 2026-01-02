@@ -38,7 +38,7 @@ const reviews = [
 
 export default function CustomerReviewsSection() {
   return (
-    <section className="relative py-20 md:py-32 bg-gradient-to-b from-white via-pink-50/30 to-pink-100/30 overflow-hidden">
+    <section id="customer-reviews" className="relative py-20 md:py-32 bg-gradient-to-b from-white via-pink-50/30 to-pink-100/30 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,182,193,0.08),transparent_70%)]" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">

@@ -51,12 +51,8 @@ export default function CelebrationSection() {
   // const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section className="relative py-20 md:py-32 bg-gradient-to-b from-white via-pink-50/30 to-white overflow-hidden">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-pink-200/20 blur-3xl" />
-        <div className="absolute top-[40%] -right-[10%] w-[40%] h-[40%] rounded-full bg-rose-200/20 blur-3xl" />
-      </div>
+    <section id="influencer-feedback" className="relative py-20 md:py-32 bg-gradient-to-b from-white via-pink-50/30 to-white overflow-hidden">
+
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.div
@@ -70,11 +66,11 @@ export default function CelebrationSection() {
             #PrernaSareeMoments
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-[#93316a] mb-6 leading-tight">
-            Celebrate Every Moment <br className="hidden md:block" />
-            <span className="italic font-serif font-light text-[#461934]">in a Prerna Saree</span>
+            Influencer Feedback<br className="hidden md:block" />
+            <span className="max-w-2xl mx-auto text-gray-600 font-body text-lg ">“Loved, Styled & Recommended by Influencers”</span>
           </h2>
-          <p className="max-w-2xl mx-auto text-gray-600 font-body text-lg">
-            Join our community of elegant women who choose tradition with a modern twist.
+          <p className="italic font-serif font-light text-[#461934] text-2xl">
+            Where tradition meets modern fashion through trusted voices.
           </p>
         </motion.div>
 
@@ -95,7 +91,7 @@ export default function CelebrationSection() {
             </a>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {instagramVideos.map((video, index) => (
               <motion.div
                 key={video.id}
