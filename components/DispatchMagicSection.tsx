@@ -85,7 +85,7 @@ export default function DispatchMagicSection() {
                 </div>
 
                 {/* Video Carousel / Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     {dispatchVideos.map((video, index) => (
                         <motion.div
                             key={video.id}
@@ -93,7 +93,7 @@ export default function DispatchMagicSection() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: index * 0.15 }}
                             viewport={{ once: true }}
-                            className="group relative aspect-[9/16] rounded-2xl overflow-hidden shadow-xl bg-black cursor-pointer"
+                            className="group relative aspect-video rounded-2xl overflow-hidden shadow-xl bg-black cursor-pointer"
                             onClick={() => setActiveVideo(video.id)}
                         >
                             {/* Placeholder / Thumbnail */}
@@ -104,19 +104,13 @@ export default function DispatchMagicSection() {
                             />
 
                             {/* Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-90" />
 
                             {/* Play Button */}
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-white/40">
                                     <Play className="w-6 h-6 text-white fill-white ml-1" />
                                 </div>
-                            </div>
-
-                            {/* Content */}
-                            <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                <h3 className="text-white font-heading font-bold text-xl mb-1">{video.title}</h3>
-                                <p className="text-pink-200 text-sm font-body">{video.desc}</p>
                             </div>
 
                             {/* Active Video Overlay (Simulated Embed) */}
