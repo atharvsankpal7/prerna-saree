@@ -1,5 +1,3 @@
-export const runtime = 'nodejs';
-
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import { Product } from '@/models/Product';
@@ -21,7 +19,7 @@ export async function GET(req: Request) {
       }
     }
 
-    const products = await Product.find(query).populate('category').sort({ createdAt: -1 });
+    const products = await Product.find(query).sort({ createdAt: -1 });
     return NextResponse.json(products);
   } catch (error) {
     console.error('API Error:', error);
