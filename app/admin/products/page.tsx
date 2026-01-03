@@ -67,9 +67,20 @@ export default function ProductsPage() {
     }, []);
 
     const fetchProducts = async () => {
-        const res = await fetch('/api/products');
-        const data = await res.json();
-        setProducts(data);
+        try {
+            const res = await fetch('/api/products');
+            const data = await res.json();
+            if (Array.isArray(data)) {
+                setProducts(data || []);
+            } else {
+                console.error('Received non-array data for products:', data);
+                setProducts([]);
+                toast({ variant: 'destructive', title: 'Error', description: 'Failed to load products' });
+            }
+        } catch (error) {
+            console.error('Failed to fetch products', error);
+            toast({ variant: 'destructive', title: 'Error', description: 'Failed to fetch products' });
+        }
     };
 
     const fetchCategories = async () => {

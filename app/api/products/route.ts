@@ -1,6 +1,9 @@
+export const runtime = 'nodejs';
+
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import { Product } from '@/models/Product';
+import { Category } from '@/models/Category';
 import { getServerSession } from 'next-auth';
 import { GET as authOptions } from '../auth/[...nextauth]/route';
 
@@ -12,15 +15,6 @@ export async function GET(req: Request) {
   try {
     let query = {};
     if (categorySlug) {
-      // We need to find the category ID first, or populate and filter.
-      // Better to populate category and filter in memory if dataset is small, or do a lookup.
-      // For simplicity and performance, let's assume we pass category ID or handle slug lookup.
-      // Actually, the requirement says "filter via slug/name in UI", but API usually takes ID.
-      // Let's support filtering by category ID directly if passed, or if slug is passed, look it up.
-      // But for now, let's just return all and filter in frontend for admin,
-      // and for client side we might need a more robust query.
-      // Let's implement slug lookup.
-      const { Category } = await import('@/models/Category');
       const category = await Category.findOne({ slug: categorySlug });
       if (category) {
         query = { category: category._id };
@@ -30,6 +24,7 @@ export async function GET(req: Request) {
     const products = await Product.find(query).populate('category').sort({ createdAt: -1 });
     return NextResponse.json(products);
   } catch (error) {
+    console.error('API Error:', error);
     return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
   }
 }
