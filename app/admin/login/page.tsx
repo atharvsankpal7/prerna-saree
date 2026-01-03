@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { Loader } from '@/components/ui/loader';
 
 export default function AdminLoginPage() {
     const [email, setEmail] = useState('');
@@ -83,6 +84,7 @@ export default function AdminLoginPage() {
                     </CardContent>
                     <CardFooter>
                         <Button type="submit" className="w-full" disabled={loading}>
+                            {loading ? <Loader className="mr-2" size={16} /> : null}
                             {loading ? 'Signing in...' : 'Sign In'}
                         </Button>
                     </CardFooter>

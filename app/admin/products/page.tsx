@@ -11,6 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Trash2, Plus, Image as ImageIcon, X, Edit } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { CldUploadWidget } from 'next-cloudinary';
+import { Loader } from '@/components/ui/loader';
 
 interface Category {
     _id: string;
@@ -37,6 +38,8 @@ export default function ProductsPage() {
     const [products, setProducts] = useState<Product[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(false);
+    const [fetching, setFetching] = useState(true);
+    const [deletingId, setDeletingId] = useState<string | null>(null);
     const { toast } = useToast();
 
     // Form State
@@ -55,8 +58,12 @@ export default function ProductsPage() {
     });
 
     useEffect(() => {
-        fetchProducts();
-        fetchCategories();
+        const init = async () => {
+            setFetching(true);
+            await Promise.all([fetchProducts(), fetchCategories()]);
+            setFetching(false);
+        };
+        init();
     }, []);
 
     const fetchProducts = async () => {
@@ -132,6 +139,7 @@ export default function ProductsPage() {
 
     const handleDelete = async (id: string) => {
         if (!confirm('Are you sure?')) return;
+        setDeletingId(id);
         try {
             const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
             if (res.ok) {
@@ -140,6 +148,8 @@ export default function ProductsPage() {
             }
         } catch (error) {
             toast({ variant: 'destructive', title: 'Error', description: 'Failed to delete product' });
+        } finally {
+            setDeletingId(null);
         }
     };
 
@@ -228,6 +238,7 @@ export default function ProductsPage() {
 
                             <div className="flex gap-2">
                                 <Button type="submit" disabled={loading} className="flex-1">
+                                    {loading ? <Loader className="mr-2" size={16} /> : null}
                                     {loading ? (editingId ? 'Updating...' : 'Creating...') : (editingId ? 'Update Product' : 'Create Product')}
                                 </Button>
                                 {editingId && (
@@ -246,60 +257,67 @@ export default function ProductsPage() {
                         <CardTitle>Existing Products</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="max-h-[800px] overflow-auto">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Image</TableHead>
-                                        <TableHead>Name</TableHead>
-                                        <TableHead>Price</TableHead>
-                                        <TableHead>Category</TableHead>
-                                        <TableHead className="text-right">Actions</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {products.map((product) => (
-                                        <TableRow key={product._id}>
-                                            <TableCell>
-                                                {product.images[0] && (
-                                                    <img src={product.images[0]} alt={product.name} className="w-10 h-10 object-cover rounded-md" />
-                                                )}
-                                            </TableCell>
-                                            <TableCell className="font-medium">{product.name}</TableCell>
-                                            <TableCell>₹{product.price}</TableCell>
-                                            <TableCell>{product.category?.name || 'Unknown'}</TableCell>
-                                            <TableCell className="text-right">
-                                                <div className="flex justify-end gap-2">
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        className="text-blue-500 hover:text-blue-600"
-                                                        onClick={() => handleEdit(product)}
-                                                    >
-                                                        <Edit className="w-4 h-4" />
-                                                    </Button>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        className="text-red-500 hover:text-red-600"
-                                                        onClick={() => handleDelete(product._id)}
-                                                    >
-                                                        <Trash2 className="w-4 h-4" />
-                                                    </Button>
-                                                </div>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                    {products.length === 0 && (
+                        {fetching ? (
+                            <div className="flex justify-center p-8">
+                                <Loader />
+                            </div>
+                        ) : (
+                            <div className="max-h-[800px] overflow-auto">
+                                <Table>
+                                    <TableHeader>
                                         <TableRow>
-                                            <TableCell colSpan={5} className="text-center text-muted-foreground">
-                                                No products found.
-                                            </TableCell>
+                                            <TableHead>Image</TableHead>
+                                            <TableHead>Name</TableHead>
+                                            <TableHead>Price</TableHead>
+                                            <TableHead>Category</TableHead>
+                                            <TableHead className="text-right">Actions</TableHead>
                                         </TableRow>
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </div>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {products.map((product) => (
+                                            <TableRow key={product._id}>
+                                                <TableCell>
+                                                    {product.images[0] && (
+                                                        <img src={product.images[0]} alt={product.name} className="w-10 h-10 object-cover rounded-md" />
+                                                    )}
+                                                </TableCell>
+                                                <TableCell className="font-medium">{product.name}</TableCell>
+                                                <TableCell>₹{product.price}</TableCell>
+                                                <TableCell>{product.category?.name || 'Unknown'}</TableCell>
+                                                <TableCell className="text-right">
+                                                    <div className="flex justify-end gap-2">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="text-blue-500 hover:text-blue-600"
+                                                            onClick={() => handleEdit(product)}
+                                                        >
+                                                            <Edit className="w-4 h-4" />
+                                                        </Button>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="text-red-500 hover:text-red-600"
+                                                            onClick={() => handleDelete(product._id)}
+                                                            disabled={deletingId === product._id}
+                                                        >
+                                                            {deletingId === product._id ? <Loader size={16} /> : <Trash2 className="w-4 h-4" />}
+                                                        </Button>
+                                                    </div>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                        {products.length === 0 && (
+                                            <TableRow>
+                                                <TableCell colSpan={5} className="text-center text-muted-foreground">
+                                                    No products found.
+                                                </TableCell>
+                                            </TableRow>
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        )}
                     </CardContent>
                 </Card>
             </div>
