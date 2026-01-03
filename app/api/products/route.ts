@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import { Product } from '@/models/Product';
+import { Category } from '@/models/Category';
 import { getServerSession } from 'next-auth';
 import { GET as authOptions } from '../auth/[...nextauth]/route';
 
@@ -20,7 +21,6 @@ export async function GET(req: Request) {
       // But for now, let's just return all and filter in frontend for admin,
       // and for client side we might need a more robust query.
       // Let's implement slug lookup.
-      const { Category } = await import('@/models/Category');
       const category = await Category.findOne({ slug: categorySlug });
       if (category) {
         query = { category: category._id };
@@ -30,6 +30,7 @@ export async function GET(req: Request) {
     const products = await Product.find(query).populate('category').sort({ createdAt: -1 });
     return NextResponse.json(products);
   } catch (error) {
+    console.error('API Error:', error);
     return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
   }
 }
