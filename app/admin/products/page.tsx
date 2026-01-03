@@ -71,7 +71,7 @@ export default function ProductsPage() {
             const res = await fetch('/api/products');
             const data = await res.json();
             if (Array.isArray(data)) {
-                setProducts(data);
+                setProducts(data || []);
             } else {
                 console.error('Received non-array data for products:', data);
                 setProducts([]);
