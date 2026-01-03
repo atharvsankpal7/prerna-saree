@@ -15,6 +15,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     }
     return NextResponse.json(product);
   } catch (error) {
+    console.error('API Error:', error);
     return NextResponse.json({ error: 'Failed to fetch product' }, { status: 500 });
   }
 }
