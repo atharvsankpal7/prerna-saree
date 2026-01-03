@@ -180,7 +180,7 @@ export default function ContentPage() {
                                             <CldUploadWidget
                                                 uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "prerna_preset"}
                                                 onSuccess={(result: any) => {
-                                                    setHeroImages([...heroImages, result.info.secure_url]);
+                                                    setHeroImages((prev) => [...prev, result.info.secure_url]);
                                                 }}
                                             >
                                                 {({ open }) => (
