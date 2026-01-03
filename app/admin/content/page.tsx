@@ -9,12 +9,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Trash2, Plus, X, Image as ImageIcon } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { CldUploadWidget } from 'next-cloudinary';
+import { Loader } from '@/components/ui/loader';
 
 export default function ContentPage() {
     const [heroImages, setHeroImages] = useState<string[]>([]);
     const [influencerVideos, setInfluencerVideos] = useState<any[]>([]);
     const [dispatchVideos, setDispatchVideos] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
+    const [fetching, setFetching] = useState(true);
+    const [addingVideo, setAddingVideo] = useState<'influencer' | 'dispatch' | null>(null);
+    const [deletingId, setDeletingId] = useState<string | null>(null);
     const { toast } = useToast();
 
     // Influencer Form
@@ -26,8 +30,12 @@ export default function ContentPage() {
     const [dispUrl, setDispUrl] = useState('');
 
     useEffect(() => {
-        fetchHeroImages();
-        fetchVideos();
+        const init = async () => {
+            setFetching(true);
+            await Promise.all([fetchHeroImages(), fetchVideos()]);
+            setFetching(false);
+        };
+        init();
     }, []);
 
     const fetchHeroImages = async () => {
@@ -69,6 +77,7 @@ export default function ContentPage() {
         e.preventDefault();
         if (!infUrl || !infName) return;
 
+        setAddingVideo('influencer');
         try {
             await fetch('/api/content/videos', {
                 method: 'POST',
@@ -83,6 +92,8 @@ export default function ContentPage() {
             fetchVideos();
         } catch (error) {
             toast({ variant: 'destructive', title: 'Error', description: 'Failed to add video' });
+        } finally {
+            setAddingVideo(null);
         }
     };
 
@@ -97,6 +108,7 @@ export default function ContentPage() {
         }
         const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
 
+        setAddingVideo('dispatch');
         try {
             await fetch('/api/content/videos', {
                 method: 'POST',
@@ -111,17 +123,22 @@ export default function ContentPage() {
             fetchVideos();
         } catch (error) {
             toast({ variant: 'destructive', title: 'Error', description: 'Failed to add video' });
+        } finally {
+            setAddingVideo(null);
         }
     };
 
     const handleDeleteVideo = async (id: string, type: 'influencer' | 'dispatch') => {
         if (!confirm('Are you sure?')) return;
+        setDeletingId(id);
         try {
             await fetch(`/api/content/videos?id=${id}&type=${type}`, { method: 'DELETE' });
             toast({ title: 'Success', description: 'Video deleted' });
             fetchVideos();
         } catch (error) {
             toast({ variant: 'destructive', title: 'Error', description: 'Failed to delete video' });
+        } finally {
+            setDeletingId(null);
         }
     };
 
@@ -141,37 +158,46 @@ export default function ContentPage() {
                             <CardTitle>Hero Images (Max 5)</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <div className="flex flex-wrap gap-4">
-                                {heroImages.map((img, idx) => (
-                                    <div key={idx} className="relative group">
-                                        <img src={img} alt="Hero" className="w-40 h-24 object-cover rounded-md border" />
-                                        <button
-                                            onClick={() => setHeroImages(heroImages.filter((_, i) => i !== idx))}
-                                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        >
-                                            <X className="w-4 h-4" />
-                                        </button>
-                                    </div>
-                                ))}
-                                {heroImages.length < 5 && (
-                                    <CldUploadWidget
-                                        uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "prerna_preset"}
-                                        onSuccess={(result: any) => {
-                                            setHeroImages([...heroImages, result.info.secure_url]);
-                                        }}
-                                    >
-                                        {({ open }) => (
-                                            <Button variant="outline" className="h-24 w-40" onClick={() => open()}>
-                                                <Plus className="w-6 h-6 mr-2" />
-                                                Add Image
-                                            </Button>
+                            {fetching ? (
+                                <div className="flex justify-center p-8">
+                                    <Loader />
+                                </div>
+                            ) : (
+                                <>
+                                    <div className="flex flex-wrap gap-4">
+                                        {heroImages.map((img, idx) => (
+                                            <div key={idx} className="relative group">
+                                                <img src={img} alt="Hero" className="w-40 h-24 object-cover rounded-md border" />
+                                                <button
+                                                    onClick={() => setHeroImages(heroImages.filter((_, i) => i !== idx))}
+                                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                >
+                                                    <X className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        ))}
+                                        {heroImages.length < 5 && (
+                                            <CldUploadWidget
+                                                uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "prerna_preset"}
+                                                onSuccess={(result: any) => {
+                                                    setHeroImages([...heroImages, result.info.secure_url]);
+                                                }}
+                                            >
+                                                {({ open }) => (
+                                                    <Button variant="outline" className="h-24 w-40" onClick={() => open()}>
+                                                        <Plus className="w-6 h-6 mr-2" />
+                                                        Add Image
+                                                    </Button>
+                                                )}
+                                            </CldUploadWidget>
                                         )}
-                                    </CldUploadWidget>
-                                )}
-                            </div>
-                            <Button onClick={handleHeroSave} disabled={loading}>
-                                {loading ? 'Saving...' : 'Save Changes'}
-                            </Button>
+                                    </div>
+                                    <Button onClick={handleHeroSave} disabled={loading}>
+                                        {loading ? <Loader className="mr-2" size={16} /> : null}
+                                        {loading ? 'Saving...' : 'Save Changes'}
+                                    </Button>
+                                </>
+                            )}
                         </CardContent>
                     </Card>
                 </TabsContent>
@@ -188,21 +214,36 @@ export default function ContentPage() {
                                     <Input placeholder="Video URL (Reel/YT)" value={infUrl} onChange={(e) => setInfUrl(e.target.value)} />
                                     <Input placeholder="Creator Name" value={infName} onChange={(e) => setInfName(e.target.value)} />
                                     <Input placeholder="Review Summary" value={infReview} onChange={(e) => setInfReview(e.target.value)} />
-                                    <Button type="submit" size="sm">Add Influencer Video</Button>
+                                    <Button type="submit" size="sm" disabled={addingVideo === 'influencer'}>
+                                        {addingVideo === 'influencer' ? <Loader className="mr-2" size={16} /> : null}
+                                        Add Influencer Video
+                                    </Button>
                                 </form>
-                                <div className="space-y-2 max-h-60 overflow-auto">
-                                    {influencerVideos.map((vid) => (
-                                        <div key={vid._id} className="flex items-center justify-between p-2 border rounded">
-                                            <div className="truncate flex-1 mr-2">
-                                                <p className="font-medium text-sm">{vid.creatorName}</p>
-                                                <p className="text-xs text-muted-foreground truncate">{vid.url}</p>
+                                {fetching ? (
+                                    <div className="flex justify-center p-4">
+                                        <Loader />
+                                    </div>
+                                ) : (
+                                    <div className="space-y-2 max-h-60 overflow-auto">
+                                        {influencerVideos.map((vid) => (
+                                            <div key={vid._id} className="flex items-center justify-between p-2 border rounded">
+                                                <div className="truncate flex-1 mr-2">
+                                                    <p className="font-medium text-sm">{vid.creatorName}</p>
+                                                    <p className="text-xs text-muted-foreground truncate">{vid.url}</p>
+                                                </div>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="text-red-500"
+                                                    onClick={() => handleDeleteVideo(vid._id, 'influencer')}
+                                                    disabled={deletingId === vid._id}
+                                                >
+                                                    {deletingId === vid._id ? <Loader size={16} /> : <Trash2 className="w-4 h-4" />}
+                                                </Button>
                                             </div>
-                                            <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDeleteVideo(vid._id, 'influencer')}>
-                                                <Trash2 className="w-4 h-4" />
-                                            </Button>
-                                        </div>
-                                    ))}
-                                </div>
+                                        ))}
+                                    </div>
+                                )}
                             </CardContent>
                         </Card>
 
@@ -214,21 +255,36 @@ export default function ContentPage() {
                             <CardContent className="space-y-4">
                                 <form onSubmit={handleAddDispatch} className="space-y-3">
                                     <Input placeholder="YouTube URL" value={dispUrl} onChange={(e) => setDispUrl(e.target.value)} />
-                                    <Button type="submit" size="sm">Add Dispatch Video</Button>
+                                    <Button type="submit" size="sm" disabled={addingVideo === 'dispatch'}>
+                                        {addingVideo === 'dispatch' ? <Loader className="mr-2" size={16} /> : null}
+                                        Add Dispatch Video
+                                    </Button>
                                 </form>
-                                <div className="space-y-2 max-h-60 overflow-auto">
-                                    {dispatchVideos.map((vid) => (
-                                        <div key={vid._id} className="flex items-center justify-between p-2 border rounded">
-                                            <div className="flex items-center gap-2 flex-1 mr-2">
-                                                <img src={vid.thumbnail} alt="Thumb" className="w-12 h-8 object-cover rounded" />
-                                                <p className="text-xs text-muted-foreground truncate flex-1">{vid.url}</p>
+                                {fetching ? (
+                                    <div className="flex justify-center p-4">
+                                        <Loader />
+                                    </div>
+                                ) : (
+                                    <div className="space-y-2 max-h-60 overflow-auto">
+                                        {dispatchVideos.map((vid) => (
+                                            <div key={vid._id} className="flex items-center justify-between p-2 border rounded">
+                                                <div className="flex items-center gap-2 flex-1 mr-2">
+                                                    <img src={vid.thumbnail} alt="Thumb" className="w-12 h-8 object-cover rounded" />
+                                                    <p className="text-xs text-muted-foreground truncate flex-1">{vid.url}</p>
+                                                </div>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="text-red-500"
+                                                    onClick={() => handleDeleteVideo(vid._id, 'dispatch')}
+                                                    disabled={deletingId === vid._id}
+                                                >
+                                                    {deletingId === vid._id ? <Loader size={16} /> : <Trash2 className="w-4 h-4" />}
+                                                </Button>
                                             </div>
-                                            <Button variant="ghost" size="icon" className="text-red-500" onClick={() => handleDeleteVideo(vid._id, 'dispatch')}>
-                                                <Trash2 className="w-4 h-4" />
-                                            </Button>
-                                        </div>
-                                    ))}
-                                </div>
+                                        ))}
+                                    </div>
+                                )}
                             </CardContent>
                         </Card>
                     </div>

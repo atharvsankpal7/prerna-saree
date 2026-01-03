@@ -9,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Trash2, Plus, Image as ImageIcon } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { CldUploadWidget } from 'next-cloudinary';
+import { Loader } from '@/components/ui/loader';
 
 interface Category {
     _id: string;
@@ -22,6 +23,8 @@ export default function CategoriesPage() {
     const [name, setName] = useState('');
     const [image, setImage] = useState('');
     const [loading, setLoading] = useState(false);
+    const [fetching, setFetching] = useState(true);
+    const [deletingId, setDeletingId] = useState<string | null>(null);
     const { toast } = useToast();
 
     useEffect(() => {
@@ -29,12 +32,15 @@ export default function CategoriesPage() {
     }, []);
 
     const fetchCategories = async () => {
+        setFetching(true);
         try {
             const res = await fetch('/api/categories');
             const data = await res.json();
             setCategories(data);
         } catch (error) {
             console.error('Failed to fetch categories', error);
+        } finally {
+            setFetching(false);
         }
     };
 
@@ -70,7 +76,7 @@ export default function CategoriesPage() {
 
     const handleDelete = async (id: string) => {
         if (!confirm('Are you sure?')) return;
-
+        setDeletingId(id);
         try {
             const res = await fetch(`/api/categories/${id}`, { method: 'DELETE' });
             if (res.ok) {
@@ -79,6 +85,8 @@ export default function CategoriesPage() {
             }
         } catch (error) {
             toast({ variant: 'destructive', title: 'Error', description: 'Failed to delete category' });
+        } finally {
+            setDeletingId(null);
         }
     };
 
@@ -124,6 +132,7 @@ export default function CategoriesPage() {
                                 </div>
                             </div>
                             <Button type="submit" disabled={loading} className="w-full">
+                                {loading ? <Loader className="mr-2" size={16} /> : null}
                                 {loading ? 'Creating...' : 'Create Category'}
                             </Button>
                         </form>
@@ -136,46 +145,53 @@ export default function CategoriesPage() {
                         <CardTitle>Existing Categories</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Image</TableHead>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead className="text-right">Actions</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {categories.map((category) => (
-                                    <TableRow key={category._id}>
-                                        <TableCell>
-                                            <img
-                                                src={category.image}
-                                                alt={category.name}
-                                                className="w-10 h-10 object-cover rounded-md"
-                                            />
-                                        </TableCell>
-                                        <TableCell className="font-medium">{category.name}</TableCell>
-                                        <TableCell className="text-right">
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                className="text-red-500 hover:text-red-600"
-                                                onClick={() => handleDelete(category._id)}
-                                            >
-                                                <Trash2 className="w-4 h-4" />
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                                {categories.length === 0 && (
+                        {fetching ? (
+                            <div className="flex justify-center p-8">
+                                <Loader />
+                            </div>
+                        ) : (
+                            <Table>
+                                <TableHeader>
                                     <TableRow>
-                                        <TableCell colSpan={3} className="text-center text-muted-foreground">
-                                            No categories found.
-                                        </TableCell>
+                                        <TableHead>Image</TableHead>
+                                        <TableHead>Name</TableHead>
+                                        <TableHead className="text-right">Actions</TableHead>
                                     </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
+                                </TableHeader>
+                                <TableBody>
+                                    {categories.map((category) => (
+                                        <TableRow key={category._id}>
+                                            <TableCell>
+                                                <img
+                                                    src={category.image}
+                                                    alt={category.name}
+                                                    className="w-10 h-10 object-cover rounded-md"
+                                                />
+                                            </TableCell>
+                                            <TableCell className="font-medium">{category.name}</TableCell>
+                                            <TableCell className="text-right">
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="text-red-500 hover:text-red-600"
+                                                    onClick={() => handleDelete(category._id)}
+                                                    disabled={deletingId === category._id}
+                                                >
+                                                    {deletingId === category._id ? <Loader size={16} /> : <Trash2 className="w-4 h-4" />}
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                    {categories.length === 0 && (
+                                        <TableRow>
+                                            <TableCell colSpan={3} className="text-center text-muted-foreground">
+                                                No categories found.
+                                            </TableCell>
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        )}
                     </CardContent>
                 </Card>
             </div>
