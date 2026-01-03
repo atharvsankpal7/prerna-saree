@@ -123,7 +123,7 @@ function ProductsContent() {
                                         <img
                                             src={product.images[0]}
                                             alt={product.name}
-                                            className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
+                                            className="object-contain w-full h-full group-hover:scale-110 transition-transform duration-700"
                                         />
                                         <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
                                     </div>

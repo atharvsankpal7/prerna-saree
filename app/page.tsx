@@ -22,15 +22,17 @@ async function getData() {
     .populate('category')
     .lean();
   const categories = await Category.find({}).lean();
-  const reviews = await Review.find({ isApproved: true })
+  const reviews = await Review.find({ isFeatured: true })
     .sort({ createdAt: -1 })
-    .limit(3)
+    .limit(6)
     .lean();
 
+  const sanitizedContent = content ? JSON.parse(JSON.stringify(content)) : null;
+
   return {
-    heroImages: content?.heroImages || [],
-    influencerVideos: content?.influencerVideos || [],
-    dispatchVideos: content?.dispatchVideos || [],
+    heroImages: sanitizedContent?.heroImages || [],
+    influencerVideos: sanitizedContent?.influencerVideos || [],
+    dispatchVideos: sanitizedContent?.dispatchVideos || [],
     newArrivals: JSON.parse(JSON.stringify(newArrivals)),
     categories: JSON.parse(JSON.stringify(categories)),
     reviews: JSON.parse(JSON.stringify(reviews)),

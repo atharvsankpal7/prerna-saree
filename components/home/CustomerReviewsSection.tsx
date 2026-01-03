@@ -11,6 +11,7 @@ interface Review {
     userName: string;
     createdAt: string;
     userImage?: string;
+    images?: string[];
 }
 
 interface CustomerReviewsSectionProps {
@@ -69,7 +70,7 @@ export default function CustomerReviewsSection({ reviews }: CustomerReviewsSecti
                             review={review.comment}
                             customerName={review.userName}
                             date={format(new Date(review.createdAt), 'dd/MM/yyyy')}
-                            imageUrl={review.userImage}
+                            imageUrl={review.userImage || (review.images && review.images.length > 0 ? review.images[0] : undefined)}
                             index={index}
                         />
                     ))}

@@ -19,7 +19,12 @@ const ReviewSchema = new Schema({
   userImage: String,
   videoLink: String,
   comment: String,
+  images: [String],
   isApproved: {
+    type: Boolean,
+    default: false,
+  },
+  isFeatured: {
     type: Boolean,
     default: false,
   },

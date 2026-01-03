@@ -148,7 +148,7 @@ export default function HeroSection({ images }: HeroSectionProps) {
                                         <img
                                             src={displayImages[pos.index]}
                                             alt={`Saree Collection ${pos.index + 1}`}
-                                            className="w-full h-full object-cover"
+                                            className="w-full h-full object-contain"
                                         />
                                         <div className="absolute inset-0 bg-black/10 hover:bg-transparent transition-colors" />
                                     </div>
@@ -165,8 +165,8 @@ export default function HeroSection({ images }: HeroSectionProps) {
                             key={index}
                             onClick={() => setCurrentIndex(index)}
                             className={`h-2 rounded-full transition-all duration-300 ${index === currentIndex
-                                    ? 'bg-white w-8'
-                                    : 'bg-white/30 w-2 hover:bg-white/50'
+                                ? 'bg-white w-8'
+                                : 'bg-white/30 w-2 hover:bg-white/50'
                                 }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />

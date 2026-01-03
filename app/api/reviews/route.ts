@@ -10,7 +10,11 @@ export async function GET(req: Request) {
   const publicView = searchParams.get('public');
 
   try {
-    const query = publicView ? { isApproved: true } : {};
+    const productId = searchParams.get('productId');
+    const query: any = {};
+    if (publicView) query.isApproved = true;
+    if (productId) query.productId = productId;
+
     const reviews = await Review.find(query).populate('productId', 'name').sort({ createdAt: -1 });
     return NextResponse.json(reviews);
   } catch (error) {
@@ -42,12 +46,16 @@ export async function PATCH(req: Request) {
 
   await dbConnect();
   try {
-    const { id, isApproved } = await req.json();
+    const { id, isApproved, isFeatured } = await req.json();
     if (!id) {
       return NextResponse.json({ error: 'ID is required' }, { status: 400 });
     }
 
-    const review = await Review.findByIdAndUpdate(id, { isApproved }, { new: true });
+    const updateData: any = {};
+    if (isApproved !== undefined) updateData.isApproved = isApproved;
+    if (isFeatured !== undefined) updateData.isFeatured = isFeatured;
+
+    const review = await Review.findByIdAndUpdate(id, updateData, { new: true });
     return NextResponse.json(review);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update review' }, { status: 500 });

@@ -75,7 +75,7 @@ export default function NewArrivalsCarousel({ products }: NewArrivalsCarouselPro
                                     src={product.images[0]}
                                     alt={product.name}
                                     fill
-                                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                    className="object-contain group-hover:scale-110 transition-transform duration-700"
                                     sizes="(max-width: 768px) 280px, 340px"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />

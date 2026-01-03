@@ -96,7 +96,7 @@ export default function DispatchMagicSection({ videos }: DispatchMagicSectionPro
                             <img
                                 src={video.thumbnail}
                                 alt="Video Thumbnail"
-                                className="w-full h-full object-cover opacity-90 group-hover:opacity-75 transition-opacity duration-500 group-hover:scale-105"
+                                className="w-full h-full object-contain opacity-90 group-hover:opacity-75 transition-opacity duration-500 group-hover:scale-105"
                             />
 
                             {/* Overlay */}

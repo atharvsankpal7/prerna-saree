@@ -15,6 +15,7 @@ interface Review {
     userName: string;
     comment: string;
     isApproved: boolean;
+    isFeatured: boolean;
     createdAt: string;
 }
 
@@ -51,6 +52,25 @@ export default function ReviewsPage() {
         }
     };
 
+    const handleFeaturedChange = async (id: string, isFeatured: boolean) => {
+        try {
+            const res = await fetch('/api/reviews', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, isFeatured }),
+            });
+
+            if (res.ok) {
+                toast({ title: 'Success', description: `Review ${isFeatured ? 'featured' : 'unfeatured'}` });
+                fetchReviews();
+            } else {
+                toast({ variant: 'destructive', title: 'Error', description: 'Failed to update featured status' });
+            }
+        } catch (error) {
+            toast({ variant: 'destructive', title: 'Error', description: 'Something went wrong' });
+        }
+    };
+
     return (
         <div className="space-y-6">
             <h1 className="text-3xl font-bold">Review Moderation</h1>
@@ -68,6 +88,7 @@ export default function ReviewsPage() {
                                 <TableHead>Rating</TableHead>
                                 <TableHead>Comment</TableHead>
                                 <TableHead>Status</TableHead>
+                                <TableHead>Featured</TableHead>
                                 <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -88,6 +109,16 @@ export default function ReviewsPage() {
                                         <Badge variant={review.isApproved ? 'default' : 'secondary'}>
                                             {review.isApproved ? 'Approved' : 'Pending'}
                                         </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button
+                                            size="sm"
+                                            variant={review.isFeatured ? 'default' : 'outline'}
+                                            onClick={() => handleFeaturedChange(review._id, !review.isFeatured)}
+                                            className={review.isFeatured ? 'bg-yellow-500 hover:bg-yellow-600' : ''}
+                                        >
+                                            <Star className={`w-4 h-4 ${review.isFeatured ? 'fill-white' : ''}`} />
+                                        </Button>
                                     </TableCell>
                                     <TableCell className="text-right space-x-2">
                                         {!review.isApproved && (

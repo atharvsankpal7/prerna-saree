@@ -35,8 +35,8 @@ export default function CustomerReviewCard({
                         <Star
                             key={i}
                             className={`w-5 h-5 ${i < rating
-                                    ? 'fill-[#93316a] text-[#93316a]'
-                                    : 'fill-gray-200 text-gray-200'
+                                ? 'fill-[#93316a] text-[#93316a]'
+                                : 'fill-gray-200 text-gray-200'
                                 }`}
                         />
                     ))}
@@ -54,7 +54,7 @@ export default function CustomerReviewCard({
                             src={imageUrl || 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400'} // Fallback
                             alt={customerName}
                             fill
-                            className="object-cover"
+                            className="object-contain"
                             sizes="64px"
                         />
                     </div>
