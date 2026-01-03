@@ -1,0 +1,36 @@
+create an admin panel auth using nextauth and email and password
+
+use mongodb as database
+
+the client facing side should gather the data from database like, categories with there images, then 
+we should have different sections for the admin like first should be reel link upload which will be in the in the Influencer Feedback section 
+
+for dispatch magic get the youtube link, and also change the compoentn so that it will automatically get the thumbnail of the video instead of having to upload it manually as image
+
+for Our Exclusive Collections section we will showcase categories with there images and then we will have a product section where we will showcase products with there images and details, the click on the image should redirect to the products page with the category as filter make sure everything is handled as "pwa"
+
+and the new arrivals should be automatically fetched from the database (10 latest products)
+
+the images in the hero section should also have there 5 image upload section for admin and those should be grabbed from backend 
+
+
+
+for customer facing side allow add review and rating button with image upload and yt/reel link upload name and description as well
+
+a single product/saree can have multiple images and also it will have  description with these details: 
+
+name:
+description:
+```
+Product Specifications -->
+
+Color: 
+Fabric:
+Design: 
+Border:
+Blouse: 
+```
+
+which has to be uploaded via admin
+the product should have /product/id page where it will have all the details of it and it should also have 
+order now button on which click it should redirect to the whatsapp with the product link
