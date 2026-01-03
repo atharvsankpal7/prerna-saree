@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Trash2, Plus, Image as ImageIcon, X } from 'lucide-react';
+import { Trash2, Plus, Image as ImageIcon, X, Edit } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { CldUploadWidget } from 'next-cloudinary';
 
@@ -20,8 +20,17 @@ interface Category {
 interface Product {
     _id: string;
     name: string;
+    description: string;
     category: Category;
     images: string[];
+    price: number;
+    specs: {
+        color: string;
+        fabric: string;
+        design: string;
+        border: string;
+        blouse: string;
+    };
 }
 
 export default function ProductsPage() {
@@ -31,8 +40,10 @@ export default function ProductsPage() {
     const { toast } = useToast();
 
     // Form State
+    const [editingId, setEditingId] = useState<string | null>(null);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [price, setPrice] = useState('');
     const [categoryId, setCategoryId] = useState('');
     const [images, setImages] = useState<string[]>([]);
     const [specs, setSpecs] = useState({
@@ -60,21 +71,45 @@ export default function ProductsPage() {
         setCategories(data);
     };
 
+    const handleEdit = (product: Product) => {
+        setEditingId(product._id);
+        setName(product.name);
+        setDescription(product.description);
+        setPrice(product.price.toString());
+        setCategoryId(product.category._id);
+        setImages(product.images);
+        setSpecs(product.specs || { color: '', fabric: '', design: '', border: '', blouse: '' });
+    };
+
+    const handleCancelEdit = () => {
+        setEditingId(null);
+        setName('');
+        setDescription('');
+        setPrice('');
+        setCategoryId('');
+        setImages([]);
+        setSpecs({ color: '', fabric: '', design: '', border: '', blouse: '' });
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!name || !categoryId || images.length === 0) {
-            toast({ variant: 'destructive', title: 'Error', description: 'Name, Category, and at least one Image are required' });
+        if (!name || !categoryId || images.length === 0 || !price) {
+            toast({ variant: 'destructive', title: 'Error', description: 'Name, Category, Price, and at least one Image are required' });
             return;
         }
 
         setLoading(true);
         try {
-            const res = await fetch('/api/products', {
-                method: 'POST',
+            const url = editingId ? `/api/products/${editingId}` : '/api/products';
+            const method = editingId ? 'PUT' : 'POST';
+
+            const res = await fetch(url, {
+                method: method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     name,
                     description,
+                    price: parseFloat(price),
                     category: categoryId,
                     images,
                     specs,
@@ -82,16 +117,11 @@ export default function ProductsPage() {
             });
 
             if (res.ok) {
-                toast({ title: 'Success', description: 'Product created' });
-                // Reset form
-                setName('');
-                setDescription('');
-                setCategoryId('');
-                setImages([]);
-                setSpecs({ color: '', fabric: '', design: '', border: '', blouse: '' });
+                toast({ title: 'Success', description: `Product ${editingId ? 'updated' : 'created'}` });
+                handleCancelEdit();
                 fetchProducts();
             } else {
-                toast({ variant: 'destructive', title: 'Error', description: 'Failed to create product' });
+                toast({ variant: 'destructive', title: 'Error', description: `Failed to ${editingId ? 'update' : 'create'} product` });
             }
         } catch (error) {
             toast({ variant: 'destructive', title: 'Error', description: 'Something went wrong' });
@@ -118,10 +148,10 @@ export default function ProductsPage() {
             <h1 className="text-3xl font-bold">Product Management</h1>
 
             <div className="grid gap-6 lg:grid-cols-2">
-                {/* Create Product Form */}
+                {/* Create/Edit Product Form */}
                 <Card className="h-fit">
                     <CardHeader>
-                        <CardTitle>Add New Product</CardTitle>
+                        <CardTitle>{editingId ? 'Edit Product' : 'Add New Product'}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -143,6 +173,11 @@ export default function ProductsPage() {
                                         </SelectContent>
                                     </Select>
                                 </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label>Price (INR)</Label>
+                                <Input type="number" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="e.g. 1299" />
                             </div>
 
                             <div className="space-y-2">
@@ -168,7 +203,7 @@ export default function ProductsPage() {
                                     <CldUploadWidget
                                         uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "prerna_preset"}
                                         onSuccess={(result: any) => {
-                                            setImages([...images, result.info.secure_url]);
+                                            setImages((prev) => [...prev, result.info.secure_url]);
                                         }}
                                     >
                                         {({ open }) => (
@@ -191,9 +226,16 @@ export default function ProductsPage() {
                                 </div>
                             </div>
 
-                            <Button type="submit" disabled={loading} className="w-full">
-                                {loading ? 'Creating...' : 'Create Product'}
-                            </Button>
+                            <div className="flex gap-2">
+                                <Button type="submit" disabled={loading} className="flex-1">
+                                    {loading ? (editingId ? 'Updating...' : 'Creating...') : (editingId ? 'Update Product' : 'Create Product')}
+                                </Button>
+                                {editingId && (
+                                    <Button type="button" variant="outline" onClick={handleCancelEdit}>
+                                        Cancel
+                                    </Button>
+                                )}
+                            </div>
                         </form>
                     </CardContent>
                 </Card>
@@ -210,6 +252,7 @@ export default function ProductsPage() {
                                     <TableRow>
                                         <TableHead>Image</TableHead>
                                         <TableHead>Name</TableHead>
+                                        <TableHead>Price</TableHead>
                                         <TableHead>Category</TableHead>
                                         <TableHead className="text-right">Actions</TableHead>
                                     </TableRow>
@@ -223,22 +266,33 @@ export default function ProductsPage() {
                                                 )}
                                             </TableCell>
                                             <TableCell className="font-medium">{product.name}</TableCell>
+                                            <TableCell>₹{product.price}</TableCell>
                                             <TableCell>{product.category?.name || 'Unknown'}</TableCell>
                                             <TableCell className="text-right">
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    className="text-red-500 hover:text-red-600"
-                                                    onClick={() => handleDelete(product._id)}
-                                                >
-                                                    <Trash2 className="w-4 h-4" />
-                                                </Button>
+                                                <div className="flex justify-end gap-2">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="text-blue-500 hover:text-blue-600"
+                                                        onClick={() => handleEdit(product)}
+                                                    >
+                                                        <Edit className="w-4 h-4" />
+                                                    </Button>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="text-red-500 hover:text-red-600"
+                                                        onClick={() => handleDelete(product._id)}
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </Button>
+                                                </div>
                                             </TableCell>
                                         </TableRow>
                                     ))}
                                     {products.length === 0 && (
                                         <TableRow>
-                                            <TableCell colSpan={4} className="text-center text-muted-foreground">
+                                            <TableCell colSpan={5} className="text-center text-muted-foreground">
                                                 No products found.
                                             </TableCell>
                                         </TableRow>

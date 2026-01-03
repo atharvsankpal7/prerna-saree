@@ -2,10 +2,15 @@ import dbConnect from '@/lib/mongodb';
 import { SiteContent } from '@/models/SiteContent';
 import { Product } from '@/models/Product';
 import { Category } from '@/models/Category';
-import HeroCarousel from '@/components/home/HeroCarousel';
-import NewArrivals from '@/components/home/NewArrivals';
-import Collections from '@/components/home/Collections';
-import VideoSection from '@/components/home/VideoSection';
+import { Review } from '@/models/Review';
+import HeroSection from '@/components/home/HeroSection';
+import NavButtons from '@/components/home/NavButtons';
+import InfluencerSection from '@/components/home/InfluencerSection';
+import DispatchMagicSection from '@/components/home/DispatchMagicSection';
+import CollectionSection from '@/components/home/CollectionSection';
+import NewArrivalsCarousel from '@/components/home/NewArrivalsCarousel';
+import CustomizeSection from '@/components/home/CustomizeSection';
+import CustomerReviewsSection from '@/components/home/CustomerReviewsSection';
 
 async function getData() {
   await dbConnect();
@@ -17,6 +22,10 @@ async function getData() {
     .populate('category')
     .lean();
   const categories = await Category.find({}).lean();
+  const reviews = await Review.find({ isApproved: true })
+    .sort({ createdAt: -1 })
+    .limit(3)
+    .lean();
 
   return {
     heroImages: content?.heroImages || [],
@@ -24,6 +33,7 @@ async function getData() {
     dispatchVideos: content?.dispatchVideos || [],
     newArrivals: JSON.parse(JSON.stringify(newArrivals)),
     categories: JSON.parse(JSON.stringify(categories)),
+    reviews: JSON.parse(JSON.stringify(reviews)),
   };
 }
 
@@ -34,25 +44,15 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-white">
-      <HeroCarousel images={data.heroImages} />
+      <HeroSection images={data.heroImages} />
+      <NavButtons />
+      <InfluencerSection videos={data.influencerVideos} />
+      <DispatchMagicSection videos={data.dispatchVideos} />
 
-      <div className="container mx-auto px-4 py-12 space-y-16">
-        <NewArrivals products={data.newArrivals} />
-
-        <Collections categories={data.categories} />
-
-        <VideoSection
-          title="Dispatch Magic"
-          videos={data.dispatchVideos}
-          type="dispatch"
-        />
-
-        <VideoSection
-          title="Influencer Feedback"
-          videos={data.influencerVideos}
-          type="influencer"
-        />
-      </div>
+      <CollectionSection categories={data.categories} />
+      <NewArrivalsCarousel products={data.newArrivals} />
+      <CustomizeSection />
+      <CustomerReviewsSection reviews={data.reviews} />
     </main>
   );
 }
