@@ -58,16 +58,12 @@ export default function InfluencerSection({ videos }: InfluencerSectionProps) {
                     viewport={{ once: true }}
                     className="text-center mb-20"
                 >
-                    <span className="inline-block py-1 px-3 rounded-full bg-pink-100 text-pink-800 text-sm font-semibold tracking-wide mb-4 font-body">
-                        #PrernaSareeMoments
-                    </span>
+
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-[#93316a] mb-6 leading-tight">
                         Influencer Feedback<br className="hidden md:block" />
-                        <span className="max-w-2xl mx-auto text-gray-600 font-body text-lg ">“Loved, Styled & Recommended by Influencers”</span>
+
                     </h2>
-                    <p className="italic font-serif font-light text-[#461934] text-2xl">
-                        Where tradition meets modern fashion through trusted voices.
-                    </p>
+
                 </motion.div>
 
 

@@ -59,8 +59,8 @@ const NavButtons = () => {
                 </h2>
             </motion.div>
 
-            <div className="max-w-4xl mx-auto px-6">
-                <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+            <div className="max-w-4xl mx-auto px-4">
+                <div className="flex justify-center gap-4 md:gap-16">
                     {navItems.map((item, index) => (
                         <motion.button
                             key={item.label}
@@ -69,12 +69,12 @@ const NavButtons = () => {
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             viewport={{ once: true }}
                             onClick={() => scrollToSection(item.targetId)}
-                            className="group flex flex-col items-center gap-3 focus:outline-none"
+                            className="group flex flex-col items-center gap-3 focus:outline-none flex-1 max-w-[120px]"
                         >
-                            <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full ${item.bg} ${item.borderColor} border-2 flex items-center justify-center transition-all duration-300 ${item.hoverBg} shadow-sm group-hover:shadow-md group-hover:scale-110`}>
-                                <item.icon className={`w-8 h-8 md:w-10 md:h-10 ${item.color} transition-transform duration-300 group-hover:rotate-12`} />
+                            <div className={`w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full ${item.bg} ${item.borderColor} border-2 flex items-center justify-center transition-all duration-300 ${item.hoverBg} shadow-sm group-hover:shadow-md group-hover:scale-110`}>
+                                <item.icon className={`w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 ${item.color} transition-transform duration-300 group-hover:rotate-12`} />
                             </div>
-                            <span className="font-heading font-semibold text-gray-800 text-sm md:text-base group-hover:text-[#93316a] transition-colors">
+                            <span className="font-heading font-semibold text-gray-800 text-[10px] sm:text-xs md:text-base group-hover:text-[#93316a] transition-colors text-center leading-tight">
                                 {item.label}
                             </span>
                         </motion.button>

@@ -81,43 +81,12 @@ export default function HeroSection({ images }: HeroSectionProps) {
             <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
 
             <div className="max-w-7xl mx-auto px-6 py-12 md:py-20 w-full">
-                <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+                <div className="flex flex-col items-center justify-center gap-12 lg:gap-8">
 
-                    {/* Text Content */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-white space-y-8 text-center lg:text-left z-10"
-                    >
-                        <div className="space-y-2">
-                            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight font-heading tracking-wide">
-                                Three Sisters...,
-                            </h2>
-                            <h3 className="text-4xl md:text-5xl lg:text-6xl font-medium font-heading text-[#ffb6e6]">
-                                Six Yards,
-                            </h3>
-                            <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading">
-                                Endless Stories.
-                            </h3>
-                        </div>
 
-                        <p className="text-lg md:text-xl text-white/80 max-w-lg mx-auto lg:mx-0 font-body leading-relaxed">
-                            Discover the elegance of tradition woven into every thread. A collection that celebrates heritage, grace, and you.
-                        </p>
-
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="group bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-10 py-4 rounded-full font-semibold flex items-center gap-3 transition-all shadow-xl mx-auto lg:mx-0 font-body tracking-wider"
-                        >
-                            Explore Collection
-                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                        </motion.button>
-                    </motion.div>
 
                     {/* Image Carousel */}
-                    <div className="relative h-[400px] md:h-[500px] lg:h-[600px] w-full flex items-center justify-center perspective-1000">
+                    <div className="relative h-[400px] md:h-[500px] lg:h-[600px] w-full flex items-center justify-center ">
                         <AnimatePresence mode="popLayout">
                             {imagePositions.map((pos, i) => (
                                 <motion.div
@@ -148,7 +117,7 @@ export default function HeroSection({ images }: HeroSectionProps) {
                                         <img
                                             src={displayImages[pos.index]}
                                             alt={`Saree Collection ${pos.index + 1}`}
-                                            className="w-full h-full object-contain"
+                                            className="w-full h-full object-cover"
                                         />
                                         <div className="absolute inset-0 bg-black/10 hover:bg-transparent transition-colors" />
                                     </div>

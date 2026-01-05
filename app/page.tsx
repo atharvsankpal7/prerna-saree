@@ -53,7 +53,7 @@ export default async function Home() {
 
       <CollectionSection categories={data.categories} />
       <NewArrivalsCarousel products={data.newArrivals} />
-      <CustomizeSection />
+      {/* <CustomizeSection /> */}
       <CustomerReviewsSection reviews={data.reviews} />
     </main>
   );

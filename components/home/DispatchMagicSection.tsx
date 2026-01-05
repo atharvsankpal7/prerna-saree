@@ -59,25 +59,7 @@ export default function DispatchMagicSection({ videos }: DispatchMagicSectionPro
                         Dispatch Magic
                     </motion.h2>
 
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-xl md:text-2xl font-serif italic text-[#461934] mb-4"
-                    >
-                        "From Our Heart to Your Home"
-                    </motion.p>
 
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        transition={{ duration: 0.8, delay: 0.3 }}
-                        className="flex items-center justify-center gap-2 text-gray-600 font-body"
-                    >
-                        <Package className="w-5 h-5 text-pink-500" />
-                        <span>Every saree is packed with care, quality, and love.</span>
-                        <Heart className="w-5 h-5 text-pink-500" />
-                    </motion.div>
                 </div>
 
                 {/* Video Carousel / Grid */}
@@ -134,17 +116,6 @@ export default function DispatchMagicSection({ videos }: DispatchMagicSectionPro
                     ))}
                 </div>
 
-                {/* Decorative Bottom */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                    className="text-center mt-16"
-                >
-                    <p className="text-[#93316a]/60 font-serif italic text-lg">
-                        ~ Wrapped with elegance, delivered with grace ~
-                    </p>
-                </motion.div>
             </div>
         </section>
     );

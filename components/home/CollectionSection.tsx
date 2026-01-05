@@ -27,20 +27,12 @@ export default function CollectionSection({ categories }: CollectionSectionProps
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 {/* Section header */}
                 <div className="text-center mb-16 md:mb-24">
-                    <span className="text-pink-600 font-body text-sm font-bold tracking-widest uppercase mb-3 block">
-                        Curated For You
-                    </span>
+
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-[#93316a] tracking-tight leading-tight mb-6">
                         Our Exclusive Collections
                     </h2>
 
-                    {/* Decorative line */}
-                    <div className="h-1 w-24 bg-gradient-to-r from-transparent via-pink-400 to-transparent mx-auto mb-6" />
 
-                    {/* Subtitle */}
-                    <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto font-body leading-relaxed">
-                        Discover our curated collections designed to celebrate every moment of your life with elegance and grace.
-                    </p>
                 </div>
 
                 {/* Collections grid */}
