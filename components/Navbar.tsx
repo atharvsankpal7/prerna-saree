@@ -1,14 +1,19 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
-    <nav className="bg-[#2b0c1c] py-4 px-6 sticky top-0 z-40 shadow-md">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+    <nav className="bg-[#2b0c1c] py-3 md:py-4 px-4 md:px-6 sticky top-0 z-40 shadow-md">
+      <div className="max-w-7xl mx-auto flex items-center justify-between relative">
         {/* Left: Logo */}
-        <Link href="/" className="relative w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
+        <Link href="/" className="relative w-12 h-12 md:w-20 md:h-20 flex-shrink-0 z-50">
           <Image
             src="/logo.png"
             alt="Prerna Sarees"
@@ -18,30 +23,69 @@ export default function Navbar() {
         </Link>
 
         {/* Center: Brand Name */}
-        <div className="flex flex-col items-center justify-center absolute left-1/2 transform -translate-x-1/2">
-          <h1 className="text-3xl md:text-5xl font-bold text-white mb-1 font-heading tracking-wide">
+        <div className="flex flex-col items-center justify-center absolute left-1/2 transform -translate-x-1/2 z-40 w-full pointer-events-none">
+          <h1 className="text-2xl md:text-5xl font-bold text-white mb-0 md:mb-1 font-heading tracking-wide drop-shadow-lg">
             प्रेरणा
           </h1>
-          <span className="text-xs md:text-sm text-pink-300 font-serif tracking-widest uppercase">
+          <span className="text-[10px] md:text-sm text-pink-300 font-serif tracking-widest uppercase drop-shadow-md">
             By 3 Sisters
           </span>
         </div>
 
-        {/* Right: Navigation Links */}
-        <div className="flex items-center gap-6 md:gap-8">
+        {/* Right: Desktop Navigation Links */}
+        <div className="hidden md:flex items-center gap-8">
           <Link
             href="/"
-            className="text-white hover:text-pink-400 transition-colors text-base md:text-lg font-medium font-body"
+            className="text-white hover:text-pink-400 transition-colors text-lg font-medium font-body"
           >
             Home
           </Link>
           <Link
             href="/products"
-            className="text-white hover:text-pink-400 transition-colors text-base md:text-lg font-medium font-body"
+            className="text-white hover:text-pink-400 transition-colors text-lg font-medium font-body"
           >
             Collection
           </Link>
         </div>
+
+        {/* Right: Mobile Menu Button */}
+        <button
+          className="md:hidden text-white z-50 p-2 hover:bg-white/10 rounded-full transition-colors"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="absolute top-full left-0 right-0 bg-[#2b0c1c] border-t border-white/10 overflow-hidden md:hidden shadow-xl"
+            >
+              <div className="flex flex-col items-center gap-6 py-8">
+                <Link
+                  href="/"
+                  className="text-white hover:text-pink-400 transition-colors text-lg font-medium font-body"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Home
+                </Link>
+                <Link
+                  href="/products"
+                  className="text-white hover:text-pink-400 transition-colors text-lg font-medium font-body"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Collection
+                </Link>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );
