@@ -1,6 +1,8 @@
 "use client"
 import { motion } from "framer-motion"
 import { MessageSquare, Star, Zap } from 'lucide-react';
+import { IM_Fell_English } from 'next/font/google';
+const imFellEnglish = IM_Fell_English({ subsets: ['latin'], weight: '400' });
 
 const navItems = [
     {
@@ -23,7 +25,7 @@ const navItems = [
     },
     {
         icon: Zap,
-        label: 'Dispatch Magic',
+        label: 'Prerna Magic',
         targetId: 'dispatch-magic',
         color: 'text-fuchsia-600',
         borderColor: 'border-fuchsia-200',
@@ -48,14 +50,15 @@ const NavButtons = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                className="text-center mb-12"
+                className={`text-center mb-12 ${imFellEnglish.className}`}
             >
-                <span className="inline-block py-1 px-3 rounded-full bg-pink-100 text-pink-800 text-sm font-semibold tracking-wide mb-4 font-body">
-                    #PrernaSareeMoments
-                </span>
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-[#93316a] mb-6 leading-tight">
-                    Celebrate Every Moment <br className="hidden md:block" />
-                    <span className="italic font-serif font-light text-[#461934]">in a Prerna Saree</span>
+
+                <h2 className={`text-4xl md:text-5xl lg:text-6xl italic text-[#93316a] mb-6 leading-tight`}>
+                    Why to trust us?
+                </h2>
+
+                <h2 className={`text-4xl md:text-5xl lg:text-6xl italic text-[#93316a] mb-6 leading-tight`}>
+                    know about Us !
                 </h2>
             </motion.div>
 

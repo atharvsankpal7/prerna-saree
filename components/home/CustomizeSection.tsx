@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ChevronRight, Sparkles } from 'lucide-react';
+import { IM_Fell_English } from 'next/font/google';
+const imFellEnglish = IM_Fell_English({ subsets: ['latin'], weight: '400' });
 
 const features = [
     'Customize the Border, Define Your Elegance',
@@ -25,7 +27,7 @@ export default function CustomizeSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
-                        className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-[#93316a] mb-6 leading-tight"
+                        className={`text-4xl md:text-5xl lg:text-6xl ${imFellEnglish.className} font-bold text-[#93316a] mb-6 leading-tight`}
                     >
                         Your Style. Your Border. <br className="hidden md:block" />
                         <span className="italic font-serif font-light text-[#461934]">Your Prerna Saree.</span>

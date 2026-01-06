@@ -68,7 +68,7 @@ export default function ContentPage() {
     };
 
     const getYoutubeId = (url: string) => {
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
         const match = url.match(regExp);
         return (match && match[2].length === 11) ? match[2] : null;
     };
@@ -118,7 +118,7 @@ export default function ContentPage() {
                     video: { url: dispUrl, thumbnail },
                 }),
             });
-            toast({ title: 'Success', description: 'Dispatch video added' });
+            toast({ title: 'Success', description: 'Prerna Magic video added' });
             setDispUrl('');
             fetchVideos();
         } catch (error) {
@@ -250,14 +250,14 @@ export default function ContentPage() {
                         {/* Dispatch Magic */}
                         <Card>
                             <CardHeader>
-                                <CardTitle>Dispatch Magic</CardTitle>
+                                <CardTitle>Prerna Magic</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <form onSubmit={handleAddDispatch} className="space-y-3">
                                     <Input placeholder="YouTube URL" value={dispUrl} onChange={(e) => setDispUrl(e.target.value)} />
                                     <Button type="submit" size="sm" disabled={addingVideo === 'dispatch'}>
                                         {addingVideo === 'dispatch' ? <Loader className="mr-2" size={16} /> : null}
-                                        Add Dispatch Video
+                                        Add Prerna Magic Video
                                     </Button>
                                 </form>
                                 {fetching ? (

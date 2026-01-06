@@ -3,14 +3,13 @@ import { SiteContent } from '@/models/SiteContent';
 import { Product } from '@/models/Product';
 import { Category } from '@/models/Category';
 import { Review } from '@/models/Review';
-import HeroSection from '@/components/home/HeroSection';
 import NavButtons from '@/components/home/NavButtons';
 import InfluencerSection from '@/components/home/InfluencerSection';
-import DispatchMagicSection from '@/components/home/DispatchMagicSection';
+import DispatchMagicSection from '@/components/home/PrernaMagicSection';
 import CollectionSection from '@/components/home/CollectionSection';
 import NewArrivalsCarousel from '@/components/home/NewArrivalsCarousel';
-import CustomizeSection from '@/components/home/CustomizeSection';
-import CustomerReviewsSection from '@/components/home/CustomerReviewsSection';
+import InstaSection from '@/components/home/InstaSection';
+import HappyClientDiary from '@/components/home/HappyClientDiary';
 
 async function getData() {
   await dbConnect();
@@ -46,15 +45,17 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-white">
-      <HeroSection images={data.heroImages} />
+      {/* <HeroSection images={data.heroImages} /> */}
       <NavButtons />
       <InfluencerSection videos={data.influencerVideos} />
+      <HappyClientDiary />
       <DispatchMagicSection videos={data.dispatchVideos} />
 
-      <CollectionSection categories={data.categories} />
       <NewArrivalsCarousel products={data.newArrivals} />
       {/* <CustomizeSection /> */}
-      <CustomerReviewsSection reviews={data.reviews} />
+      {/* <CustomerReviewsSection reviews={data.reviews} /> */}
+      <CollectionSection categories={data.categories} />
+      <InstaSection />
     </main>
   );
 }
