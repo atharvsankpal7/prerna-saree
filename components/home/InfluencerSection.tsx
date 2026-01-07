@@ -33,7 +33,7 @@ export default function InfluencerSection({ videos }: InfluencerSectionProps) {
                             viewport={{ once: true }}
                             className="relative w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16 flex-shrink-0"
                         >
-                            <Image src="/flower.png" alt="flower" fill className="object-contain" />
+
                         </motion.div>
 
                         <h2 className={`text-4xl md:text-5xl lg:text-6xl ${montez.className} font-bold text-[#93316a] leading-tight`}>
@@ -47,7 +47,7 @@ export default function InfluencerSection({ videos }: InfluencerSectionProps) {
                             viewport={{ once: true }}
                             className="relative w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16 flex-shrink-0"
                         >
-                            <Image src="/flower.png" alt="flower" fill className="object-contain" />
+
                         </motion.div>
                     </div>
                 </div>
