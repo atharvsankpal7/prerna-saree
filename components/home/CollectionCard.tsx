@@ -4,9 +4,9 @@ import { type FC } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { IM_Fell_English } from 'next/font/google';
+import { Montez } from 'next/font/google';
 
-const imFellEnglish = IM_Fell_English({ subsets: ['latin'], weight: '400' });
+const montez = Montez({ subsets: ['latin'], weight: '400' });
 
 interface CollectionCardProps {
     title: string;
@@ -44,7 +44,7 @@ const CollectionCard: FC<CollectionCardProps> = ({
 
                     {/* Content */}
                     <div className="mt-4 md:mt-6 text-center pb-2">
-                        <h3 className={`text-2xl md:text-3xl ${imFellEnglish.className} font-bold text-[#831843] leading-none`}>
+                        <h3 className={`text-2xl md:text-3xl ${montez.className} font-bold text-[#831843] leading-none`}>
                             {title}
                         </h3>
 

@@ -3,9 +3,9 @@
 import { motion } from 'framer-motion';
 import CustomerReviewCard from './CustomerReviewCard';
 import { format } from 'date-fns';
-import { IM_Fell_English } from 'next/font/google';
+import { Montez } from 'next/font/google';
 
-const imFellEnglish = IM_Fell_English({ subsets: ['latin'], weight: '400' });
+const montez = Montez({ subsets: ['latin'], weight: '400' });
 
 interface Review {
     _id: string;
@@ -44,7 +44,7 @@ export default function CustomerReviewsSection({ reviews }: CustomerReviewsSecti
                     <span className="text-pink-600 font-body text-sm font-bold tracking-widest uppercase mb-3 block">
                         Testimonials
                     </span>
-                    <h2 className={`text-4xl md:text-5xl lg:text-6xl ${imFellEnglish.className} font-bold text-[#93316a] tracking-tight leading-tight mb-6`}>
+                    <h2 className={`text-4xl md:text-5xl lg:text-6xl ${montez.className} font-bold text-[#93316a] tracking-tight leading-tight mb-6`}>
                         Loved By Thousands
                     </h2>
 

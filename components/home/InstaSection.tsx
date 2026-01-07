@@ -2,9 +2,9 @@
 
 import { motion } from 'framer-motion';
 import { Instagram } from 'lucide-react';
-import { IM_Fell_English } from 'next/font/google';
+import { Montez } from 'next/font/google';
 
-const imFellEnglish = IM_Fell_English({ subsets: ['latin'], weight: '400' });
+const montez = Montez({ subsets: ['latin'], weight: '400' });
 
 const STATIC_VIDEOS = [
     { _id: '1', url: 'https://www.instagram.com/reel/DNknvPgCU5_/embed', creatorName: 'Influencer 1', reviewSummary: 'Great!' },
@@ -65,7 +65,7 @@ export default function InstaSection() {
                     className="relative"
                 >
                     <div className="flex items-center justify-between mb-8 px-2">
-                        <h3 className={`text-2xl ${imFellEnglish.className} font-bold text-gray-800`}>Latest from Instagram</h3>
+                        <h3 className={`text-2xl ${montez.className} font-bold text-gray-800`}>Latest from Instagram</h3>
                         <a href="https://instagram.com" target="_blank" rel="noreferrer" className="text-[#93316a] font-semibold hover:text-[#461934] transition-colors flex items-center gap-2 font-body">
                             View All <Instagram className="w-4 h-4" />
                         </a>

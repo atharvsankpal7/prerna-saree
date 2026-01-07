@@ -1,8 +1,9 @@
 "use client"
 import { motion } from "framer-motion"
 import { MessageSquare, Star, Zap } from 'lucide-react';
-import { IM_Fell_English } from 'next/font/google';
-const imFellEnglish = IM_Fell_English({ subsets: ['latin'], weight: '400' });
+import { Montez } from 'next/font/google';
+import Image from "next/image";
+const montez = Montez({ subsets: ['latin'], weight: '400' });
 
 const navItems = [
     {
@@ -45,23 +46,16 @@ const NavButtons = () => {
 
     return (
         <section className="py-10">
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className={`text-center mb-12 ${imFellEnglish.className}`}
-            >
-
-                <h2 className={`text-4xl md:text-5xl lg:text-6xl italic text-[#93316a] mb-6 leading-tight`}>
-                    Why to trust us?
-                </h2>
-
-                <h2 className={`text-4xl md:text-5xl lg:text-6xl italic text-[#93316a] mb-6 leading-tight`}>
-                    know about Us !
-                </h2>
-            </motion.div>
-
+            <div className="w-full h-auto mx-auto mb-6 md:mb-12 bg-[#f9cce9] overflow-hidden">
+                <Image
+                    src="/LET US KNOW.jpg"
+                    alt="LET US KNOW"
+                    width={1024}
+                    height={1024}
+                    className="w-full h-auto mx-auto translate-x-0"
+                    priority
+                />
+            </div>
             <div className="max-w-4xl mx-auto px-4">
                 <div className="flex justify-center gap-4 md:gap-16">
                     {navItems.map((item, index) => (

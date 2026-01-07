@@ -10,7 +10,6 @@ import { useState } from 'react';
 import { Loader } from '@/components/ui/loader';
 
 const navItems = [
-    { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/categories', label: 'Categories', icon: Layers },
     { href: '/admin/products', label: 'Products', icon: ShoppingBag },
     { href: '/admin/content', label: 'Content (Hero/Video)', icon: Video },

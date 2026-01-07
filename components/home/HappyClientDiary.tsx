@@ -3,9 +3,9 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { Play } from 'lucide-react';
-import { IM_Fell_English } from 'next/font/google';
+import { Montez } from 'next/font/google';
 
-const imFellEnglish = IM_Fell_English({ subsets: ['latin'], weight: '400' });
+const montez = Montez({ subsets: ['latin'], weight: '400' });
 
 const STATIC_VIDEO = {
     _id: '1',
@@ -31,7 +31,7 @@ export default function HappyClientDiary() {
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className={`text-3xl md:text-7xl ${imFellEnglish.className} font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#93316a] via-pink-600 to-[#93316a] mb-6 pb-2 drop-shadow-sm`}
+                        className={`text-3xl md:text-7xl ${montez.className} font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#93316a] via-pink-600 to-[#93316a] mb-6 pb-2 drop-shadow-sm`}
                     >
                         Happy Client Diary
                     </motion.h2>

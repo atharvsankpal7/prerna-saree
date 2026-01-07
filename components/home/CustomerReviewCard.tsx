@@ -3,9 +3,9 @@
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import Image from 'next/image';
-import { IM_Fell_English } from 'next/font/google';
+import { Montez } from 'next/font/google';
 
-const imFellEnglish = IM_Fell_English({ subsets: ['latin'], weight: '400' });
+const montez = Montez({ subsets: ['latin'], weight: '400' });
 
 interface CustomerReviewCardProps {
     rating: number;
@@ -46,7 +46,7 @@ export default function CustomerReviewCard({
                 </div>
 
                 <blockquote className="flex-1 mb-8">
-                    <p className={`text-xl ${imFellEnglish.className} font-medium text-gray-800 leading-relaxed italic`}>
+                    <p className={`text-xl ${montez.className} font-medium text-gray-800 leading-relaxed italic`}>
                         "{review}"
                     </p>
                 </blockquote>
@@ -63,7 +63,7 @@ export default function CustomerReviewCard({
                     </div>
 
                     <div className="flex flex-col">
-                        <h3 className={`text-lg font-bold ${imFellEnglish.className} text-gray-900`}>
+                        <h3 className={`text-lg font-bold ${montez.className} text-gray-900`}>
                             {customerName}
                         </h3>
                         <p className="text-gray-500 text-sm font-body">Verified Buyer • {date}</p>

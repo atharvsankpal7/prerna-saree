@@ -5,9 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { IM_Fell_English } from 'next/font/google';
+import { Montez } from 'next/font/google';
 
-const imFellEnglish = IM_Fell_English({ subsets: ['latin'], weight: '400' });
+const montez = Montez({ subsets: ['latin'], weight: '400' });
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -27,7 +27,7 @@ export default function Navbar() {
 
         {/* Center: Brand Name */}
         <div className="flex flex-col items-center justify-center absolute left-1/2 transform -translate-x-1/2 z-40 w-full pointer-events-none">
-          <h1 className={`text-2xl md:text-5xl font-bold text-black mb-0 md:mb-1 ${imFellEnglish.className} tracking-wide`}>
+          <h1 className={`text-2xl md:text-5xl font-bold text-black mb-0 md:mb-1 ${montez.className} tracking-wide`}>
             प्रेरणा
           </h1>
           <span className="text-[10px] md:text-sm text-black font-serif tracking-widest uppercase">

@@ -2,8 +2,8 @@
 
 import CollectionCard from './CollectionCard';
 import Link from 'next/link';
-import { IM_Fell_English } from 'next/font/google';
-const imFellEnglish = IM_Fell_English({ subsets: ['latin'], weight: '400' });
+import { Montez } from 'next/font/google';
+const montez = Montez({ subsets: ['latin'], weight: '400' });
 
 interface Category {
     _id: string;
@@ -30,7 +30,7 @@ export default function CollectionSection({ categories }: CollectionSectionProps
                 {/* Section header */}
                 <div className="text-center mb-16 md:mb-24">
 
-                    <h2 className={`text-4xl md:text-5xl lg:text-6xl ${imFellEnglish.className} font-bold text-[#93316a] tracking-tight leading-tight mb-6`}>
+                    <h2 className={`text-4xl md:text-5xl lg:text-6xl ${montez.className} font-bold text-[#93316a] tracking-tight leading-tight mb-6`}>
                         Our Exclusive Collections
                     </h2>
 

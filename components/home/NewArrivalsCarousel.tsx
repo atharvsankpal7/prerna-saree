@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { IM_Fell_English } from 'next/font/google';
-const imFellEnglish = IM_Fell_English({ subsets: ['latin'], weight: '400' });
+import { Montez } from 'next/font/google';
+const montez = Montez({ subsets: ['latin'], weight: '400' });
 import { ArrowRight } from 'lucide-react';
 
 interface Product {
@@ -33,7 +33,7 @@ export default function NewArrivalsCarousel({ products }: NewArrivalsCarouselPro
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                     viewport={{ once: true }}
-                    className={`text-3xl md:text-4xl lg:text-7xl ${imFellEnglish.className} font-bold text-[#93316a] mb-4 italic`}
+                    className={`text-3xl md:text-4xl lg:text-7xl ${montez.className} font-bold text-[#93316a] mb-4 italic`}
                 >
                     New Arrivals
                 </motion.h2>
@@ -78,7 +78,7 @@ export default function NewArrivalsCarousel({ products }: NewArrivalsCarouselPro
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
 
                                 <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                    <p className={`text-lg sm:text-xl ${imFellEnglish.className} font-bold mb-1`}>{product.name}</p>
+                                    <p className={`text-lg sm:text-xl ${montez.className} font-bold mb-1`}>{product.name}</p>
                                     <p className="text-xs sm:text-sm text-pink-200 mb-2">{product.category?.name}</p>
                                     <p className="text-lg sm:text-xl font-bold text-white mb-2">₹{product.price}</p>
                                     <div className="flex items-center gap-2 text-pink-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
