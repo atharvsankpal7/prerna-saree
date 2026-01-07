@@ -77,6 +77,12 @@ export default function ContentPage() {
         e.preventDefault();
         if (!infUrl || !infName) return;
 
+        const videoId = getYoutubeId(infUrl);
+        if (!videoId) {
+            toast({ variant: 'destructive', title: 'Error', description: 'Please enter a valid YouTube URL' });
+            return;
+        }
+
         setAddingVideo('influencer');
         try {
             await fetch('/api/content/videos', {
@@ -211,7 +217,7 @@ export default function ContentPage() {
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <form onSubmit={handleAddInfluencer} className="space-y-3">
-                                    <Input placeholder="Video URL (Reel/YT)" value={infUrl} onChange={(e) => setInfUrl(e.target.value)} />
+                                    <Input placeholder="YouTube URL" value={infUrl} onChange={(e) => setInfUrl(e.target.value)} />
                                     <Input placeholder="Creator Name" value={infName} onChange={(e) => setInfName(e.target.value)} />
                                     <Input placeholder="Review Summary" value={infReview} onChange={(e) => setInfReview(e.target.value)} />
                                     <Button type="submit" size="sm" disabled={addingVideo === 'influencer'}>

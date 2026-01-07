@@ -50,7 +50,6 @@ export default async function Home() {
       <InfluencerSection videos={data.influencerVideos} />
       <HappyClientDiary />
       <DispatchMagicSection videos={data.dispatchVideos} />
-
       <NewArrivalsCarousel products={data.newArrivals} />
       {/* <CustomizeSection /> */}
       {/* <CustomerReviewsSection reviews={data.reviews} /> */}

@@ -1,16 +1,16 @@
 'use client';
 
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { Play, X } from 'lucide-react';
 import { IM_Fell_English } from 'next/font/google';
+import YoutubeShortsCard, { extractYoutubeVideoId } from './YoutubeShortsCard';
 
 const imFellEnglish = IM_Fell_English({ subsets: ['latin'], weight: '400' });
 
 interface DispatchVideo {
     _id: string;
     url: string;
-    thumbnail: string;
+    thumbnail?: string;
 }
 
 interface DispatchMagicSectionProps {
@@ -19,7 +19,8 @@ interface DispatchMagicSectionProps {
 
 export default function DispatchMagicSection({ videos }: DispatchMagicSectionProps) {
     const containerRef = useRef<HTMLDivElement>(null);
-    const [activeVideo, setActiveVideo] = useState<string | null>(null);
+    // Track which video is currently playing (null means no video is playing)
+    const [currentlyPlayingId, setCurrentlyPlayingId] = useState<string | null>(null);
 
     const displayVideos = videos.length > 0 ? videos : [
         {
@@ -39,10 +40,14 @@ export default function DispatchMagicSection({ videos }: DispatchMagicSectionPro
         }
     ];
 
-    const getYoutubeId = (url: string) => {
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
-        const match = url.match(regExp);
-        return (match && match[2].length === 11) ? match[2] : null;
+    const handlePlay = (videoId: string) => {
+        // Set the currently playing video - this automatically pauses others
+        setCurrentlyPlayingId(videoId);
+    };
+
+    const handlePause = () => {
+        // Stop all videos
+        setCurrentlyPlayingId(null);
     };
 
     return (
@@ -59,53 +64,21 @@ export default function DispatchMagicSection({ videos }: DispatchMagicSectionPro
                     </motion.h2>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 justify-items-center">
-                    {displayVideos.map((video, index) => (
-                        <motion.div
-                            key={video._id}
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                            className="group relative aspect-[9/16] w-full max-w-[280px] sm:max-w-none rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl bg-black cursor-pointer border-2 md:border-4 border-white/50"
-                            onClick={() => setActiveVideo(video._id)}
-                        >
-                            <img
-                                src={video.thumbnail}
-                                alt="Shorts Thumbnail"
-                                className="w-full h-full object-cover opacity-90 group-hover:opacity-75 transition-opacity duration-500 group-hover:scale-105"
+                <div className="flex overflow-x-auto pb-8 gap-4 md:grid md:grid-cols-4 md:gap-6 snap-x snap-mandatory scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0">
+                    {displayVideos.map((video) => {
+                        const videoId = extractYoutubeVideoId(video.url);
+                        if (!videoId) return null;
+
+                        return (
+                            <YoutubeShortsCard
+                                key={video._id}
+                                videoId={videoId}
+                                isPlaying={currentlyPlayingId === video._id}
+                                onPlay={() => handlePlay(video._id)}
+                                onPause={handlePause}
                             />
-
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-90" />
-
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-white/40">
-                                    <Play className="w-5 h-5 md:w-6 md:h-6 text-white fill-white ml-1" />
-                                </div>
-                            </div>
-
-                            {activeVideo === video._id && (
-                                <div className="absolute inset-0 z-20 bg-black">
-                                    <iframe
-                                        width="100%"
-                                        height="100%"
-                                        src={`https://www.youtube.com/embed/${getYoutubeId(video.url)}?autoplay=1&controls=1&modestbranding=1&loop=1&rel=0`}
-                                        title="Dispatch Shorts"
-                                        frameBorder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowFullScreen
-                                        className="w-full h-full"
-                                    ></iframe>
-                                    <button
-                                        onClick={(e) => { e.stopPropagation(); setActiveVideo(null); }}
-                                        className="absolute top-2 right-2 md:top-4 md:right-4 text-white bg-black/50 rounded-full p-1.5 md:p-2 hover:bg-black/70 z-30 backdrop-blur-sm"
-                                    >
-                                        <X className="w-4 h-4 md:w-5 md:h-5" />
-                                    </button>
-                                </div>
-                            )}
-                        </motion.div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </section>
