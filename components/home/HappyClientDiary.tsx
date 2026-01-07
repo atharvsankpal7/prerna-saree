@@ -31,7 +31,7 @@ export default function HappyClientDiary() {
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className={`text-5xl md:text-7xl ${imFellEnglish.className} font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#93316a] via-pink-600 to-[#93316a] mb-6 pb-2 drop-shadow-sm`}
+                        className={`text-3xl md:text-7xl ${imFellEnglish.className} font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#93316a] via-pink-600 to-[#93316a] mb-6 pb-2 drop-shadow-sm`}
                     >
                         Happy Client Diary
                     </motion.h2>

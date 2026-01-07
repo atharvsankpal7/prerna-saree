@@ -18,8 +18,6 @@ interface Product {
         color: string;
         fabric: string;
         design: string;
-        border: string;
-        blouse: string;
     };
 }
 
@@ -87,21 +85,7 @@ export default function ProductDetailPage() {
     const fetchProduct = async () => {
         try {
             const res = await fetch(`/api/products?id=${id}`);
-            // Note: Our API currently returns all products if no ID is passed in a specific way, 
-            // or we need a specific endpoint. 
-            // Actually, we defined /api/products/[id] for DELETE, but usually GET /api/products/[id] is better.
-            // But let's check our API implementation.
-            // We implemented GET /api/products which takes query params.
-            // We implemented DELETE /api/products/[id].
-            // We did NOT implement GET /api/products/[id].
-            // I should probably implement GET /api/products/[id] or just filter in the client if the list is small (not ideal).
-            // Or I can fetch from /api/products and find the one.
-            // Better: Update the API to handle GET /api/products/[id].
-            // For now, let's assume I'll fix the API or use a query param on the main route if I modify it.
-            // Let's try fetching all and finding for now to save a step, or better, fix the API.
-            // Actually, I can just add a GET handler to app/api/products/[id]/route.ts.
 
-            // Let's assume I will add the GET handler.
             const response = await fetch(`/api/products/${id}`);
             if (response.ok) {
                 const data = await response.json();
@@ -179,8 +163,6 @@ export default function ProductDetailPage() {
                                     {product.specs.color && <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#93316a]"></span><span className="font-semibold text-gray-900">Color:</span> {product.specs.color}</li>}
                                     {product.specs.fabric && <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#93316a]"></span><span className="font-semibold text-gray-900">Fabric:</span> {product.specs.fabric}</li>}
                                     {product.specs.design && <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#93316a]"></span><span className="font-semibold text-gray-900">Design:</span> {product.specs.design}</li>}
-                                    {product.specs.border && <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#93316a]"></span><span className="font-semibold text-gray-900">Border:</span> {product.specs.border}</li>}
-                                    {product.specs.blouse && <li className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-[#93316a]"></span><span className="font-semibold text-gray-900">Blouse:</span> {product.specs.blouse}</li>}
                                 </ul>
                             </div>
 
@@ -199,38 +181,6 @@ export default function ProductDetailPage() {
                                 <p className="text-center text-xs text-gray-400 mt-3 font-body">
                                     Secure checkout via WhatsApp Business
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Trust Badges */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-8 bg-gray-50 border-t border-gray-100">
-                        <div className="flex flex-col items-center text-center gap-3">
-                            <div className="bg-white w-12 h-12 rounded-full flex items-center justify-center shadow-sm text-2xl">🚚</div>
-                            <div>
-                                <p className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-1">Free Shipping</p>
-                                <p className="text-[10px] text-gray-500">On all prepaid orders</p>
-                            </div>
-                        </div>
-                        <div className="flex flex-col items-center text-center gap-3">
-                            <div className="bg-white w-12 h-12 rounded-full flex items-center justify-center shadow-sm text-2xl">⭐</div>
-                            <div>
-                                <p className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-1">Assured Quality</p>
-                                <p className="text-[10px] text-gray-500">Handpicked collection</p>
-                            </div>
-                        </div>
-                        <div className="flex flex-col items-center text-center gap-3">
-                            <div className="bg-white w-12 h-12 rounded-full flex items-center justify-center shadow-sm text-2xl">💳</div>
-                            <div>
-                                <p className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-1">Secure Payment</p>
-                                <p className="text-[10px] text-gray-500">100% secure transaction</p>
-                            </div>
-                        </div>
-                        <div className="flex flex-col items-center text-center gap-3">
-                            <div className="bg-white w-12 h-12 rounded-full flex items-center justify-center shadow-sm text-2xl">💎</div>
-                            <div>
-                                <p className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-1">Best Price</p>
-                                <p className="text-[10px] text-gray-500">Guaranteed value</p>
                             </div>
                         </div>
                     </div>

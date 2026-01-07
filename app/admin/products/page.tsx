@@ -29,8 +29,6 @@ interface Product {
         color: string;
         fabric: string;
         design: string;
-        border: string;
-        blouse: string;
     };
 }
 
@@ -53,8 +51,6 @@ export default function ProductsPage() {
         color: '',
         fabric: '',
         design: '',
-        border: '',
-        blouse: '',
     });
 
     useEffect(() => {
@@ -96,7 +92,7 @@ export default function ProductsPage() {
         setPrice(product.price.toString());
         setCategoryId(product.category._id);
         setImages(product.images);
-        setSpecs(product.specs || { color: '', fabric: '', design: '', border: '', blouse: '' });
+        setSpecs(product.specs || { color: '', fabric: '', design: '' });
     };
 
     const handleCancelEdit = () => {
@@ -106,7 +102,7 @@ export default function ProductsPage() {
         setPrice('');
         setCategoryId('');
         setImages([]);
-        setSpecs({ color: '', fabric: '', design: '', border: '', blouse: '' });
+        setSpecs({ color: '', fabric: '', design: '' });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -242,8 +238,6 @@ export default function ProductsPage() {
                                     <Input placeholder="Color" value={specs.color} onChange={(e) => setSpecs({ ...specs, color: e.target.value })} />
                                     <Input placeholder="Fabric" value={specs.fabric} onChange={(e) => setSpecs({ ...specs, fabric: e.target.value })} />
                                     <Input placeholder="Design" value={specs.design} onChange={(e) => setSpecs({ ...specs, design: e.target.value })} />
-                                    <Input placeholder="Border" value={specs.border} onChange={(e) => setSpecs({ ...specs, border: e.target.value })} />
-                                    <Input placeholder="Blouse" value={specs.blouse} onChange={(e) => setSpecs({ ...specs, blouse: e.target.value })} />
                                 </div>
                             </div>
 
