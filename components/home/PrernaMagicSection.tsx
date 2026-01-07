@@ -2,6 +2,8 @@
 
 import { Montez } from 'next/font/google';
 import YoutubeShortsCard, { extractYoutubeVideoId } from './YoutubeShortsCard';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 const montez = Montez({ subsets: ['latin'], weight: '400' });
 
@@ -18,12 +20,34 @@ interface DispatchMagicSectionProps {
 export default function DispatchMagicSection({ videos }: DispatchMagicSectionProps) {
 
     return (
-        <section id="dispatch-magic" className="relative py-16 md:py-24 lg:py-32 overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center mb-12 md:mb-20">
-                    <h2 className={`text-4xl sm:text-5xl md:text-7xl ${montez.className} font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#93316a] via-pink-600 to-[#93316a] mb-4 md:mb-6 pb-2 drop-shadow-sm`}>
-                        Prerna Magic
-                    </h2>
+        <section id="dispatch-magic" className="relative  overflow-hidden">
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
+                <div className="text-center mb-3">
+                    <div className="flex items-center justify-center gap-2 md:gap-4">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
+                            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="relative w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16 flex-shrink-0"
+                        >
+                            <Image src="/flower.png" alt="flower" fill className="object-contain" />
+                        </motion.div>
+
+                        <h2 className={`text-4xl sm:text-5xl md:text-7xl ${montez.className} font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#93316a] via-pink-600 to-[#93316a]  drop-shadow-sm`}>
+                            Prerna Magic
+                        </h2>
+
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.5, rotate: 45 }}
+                            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="relative w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16 flex-shrink-0"
+                        >
+                            <Image src="/flower.png" alt="flower" fill className="object-contain" />
+                        </motion.div>
+                    </div>
                 </div>
 
                 <div className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide">

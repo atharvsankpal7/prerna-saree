@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Instagram } from 'lucide-react';
 import { Montez } from 'next/font/google';
+import Image from 'next/image';
 
 const montez = Montez({ subsets: ['latin'], weight: '400' });
 
@@ -34,13 +35,13 @@ export default function InstaSection() {
     };
 
     return (
-        <section id="influencer-feedback" className="relative py-20 md:py-32 bg-gradient-to-b from-white via-pink-50/30 to-white overflow-hidden">
+        <section id="influencer-feedback" className="relative   bg-gradient-to-b from-white via-pink-50/30 to-white overflow-hidden mb-16">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
                 viewport={{ once: true }}
-                className="text-center mb-16"
+                className="text-center mb-6"
             >
                 <motion.a
                     href="https://instagram.com"
@@ -48,10 +49,10 @@ export default function InstaSection() {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="inline-flex items-center gap-3 bg-[#93316a] hover:bg-[#7a2858] text-white px-10 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all font-body tracking-wide"
+                    className="inline-flex items-center gap-3 bg-[#93316a] hover:bg-[#7a2858] text-white px-8 py-1 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all font-body tracking-wide"
                 >
                     <Instagram className="w-5 h-5" />
-                    Follow @3sisters
+                    Follow @prerna
                 </motion.a>
             </motion.div>
             <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -79,7 +80,7 @@ export default function InstaSection() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: index * 0.1 }}
                                 viewport={{ once: true }}
-                                className="relative group cursor-pointer"
+                                className="relative group cursor-pointer w-[75%] h-[75%]"
                             >
                                 <div className="relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 bg-white aspect-[9/16] border border-gray-100">
                                     <iframe

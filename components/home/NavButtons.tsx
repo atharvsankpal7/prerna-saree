@@ -13,16 +13,18 @@ const navItems = [
         color: 'text-pink-600',
         borderColor: 'border-pink-200',
         bg: 'bg-pink-50',
-        hoverBg: 'group-hover:bg-pink-100'
+        hoverBg: 'group-hover:bg-pink-100',
+        image: '/influencer feedback.png'
     },
     {
         icon: Star,
-        label: 'Customer Review',
+        label: 'Client Diary',
         targetId: 'customer-reviews',
         color: 'text-rose-600',
         borderColor: 'border-rose-200',
         bg: 'bg-rose-50',
-        hoverBg: 'group-hover:bg-rose-100'
+        hoverBg: 'group-hover:bg-rose-100',
+        image: '/diary.png'
     },
     {
         icon: Zap,
@@ -31,7 +33,8 @@ const navItems = [
         color: 'text-fuchsia-600',
         borderColor: 'border-fuchsia-200',
         bg: 'bg-fuchsia-50',
-        hoverBg: 'group-hover:bg-fuchsia-100'
+        hoverBg: 'group-hover:bg-fuchsia-100',
+        image: '/dispatch.png'
     },
 ];
 
@@ -45,8 +48,8 @@ const NavButtons = () => {
     };
 
     return (
-        <section className="py-10">
-            <div className="w-full h-auto mx-auto mb-6 md:mb-12 bg-[#f9cce9] overflow-hidden">
+        <section className="">
+            <div className="w-full h-auto mx-auto mb-6 md:mb-8 bg-[#f9cce9] overflow-hidden">
                 <Image
                     src="/LET US KNOW.jpg"
                     alt="LET US KNOW"
@@ -68,9 +71,10 @@ const NavButtons = () => {
                             onClick={() => scrollToSection(item.targetId)}
                             className="group flex flex-col items-center gap-3 focus:outline-none flex-1 max-w-[120px]"
                         >
-                            <div className={`w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full ${item.bg} ${item.borderColor} border-2 flex items-center justify-center transition-all duration-300 ${item.hoverBg} shadow-sm group-hover:shadow-md group-hover:scale-110`}>
-                                <item.icon className={`w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 ${item.color} transition-transform duration-300 group-hover:rotate-12`} />
-                            </div>
+
+
+                            <Image src={item.image} alt={item.label} width={72} height={72} />
+
                             <span className="font-heading font-semibold text-gray-800 text-[10px] sm:text-xs md:text-base group-hover:text-[#93316a] transition-colors text-center leading-tight">
                                 {item.label}
                             </span>

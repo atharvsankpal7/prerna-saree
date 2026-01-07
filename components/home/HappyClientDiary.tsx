@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { Play } from 'lucide-react';
 import { Montez } from 'next/font/google';
+import Image from 'next/image';
 
 const montez = Montez({ subsets: ['latin'], weight: '400' });
 
@@ -24,17 +25,28 @@ export default function HappyClientDiary() {
     };
 
     return (
-        <section id="dispatch-magic" ref={containerRef} className="relative py-24 md:py-32 overflow-hidden bg-[#fff0f5]">
+        <section id="dispatch-magic" ref={containerRef} className="relative pb-5 md:pb-5 overflow-hidden ">
             <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="text-center mb-12">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className={`text-3xl md:text-7xl ${montez.className} font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#93316a] via-pink-600 to-[#93316a] mb-6 pb-2 drop-shadow-sm`}
-                    >
-                        Happy Client Diary
-                    </motion.h2>
+                <div className="text-center ">
+                    <div className="flex items-center justify-center gap-2 md:gap-4">
+                        <div
+                            className="relative w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16 flex-shrink-0"
+                        >
+                            <Image src="/flower.png" alt="flower" fill className="object-contain" />
+                        </div>
+
+                        <h2
+                            className={`text-3xl md:text-7xl ${montez.className} font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#93316a] via-pink-600 to-[#93316a] pb-1  `}
+                        >
+                            Happy Client Diary
+                        </h2>
+
+                        <div
+                            className="relative w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16 flex-shrink-0"
+                        >
+                            <Image src="/flower.png" alt="flower" fill className="object-contain" />
+                        </div>
+                    </div>
                 </div>
 
                 <motion.div

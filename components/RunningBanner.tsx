@@ -1,14 +1,23 @@
 'use client';
 
-import { MessageCircle } from 'lucide-react';
-
 export default function RunningBanner() {
   return (
     <div className="bg-[#9bf1ed] overflow-hidden py-2.5 relative z-50">
       <div className="animate-marquee whitespace-nowrap flex">
         {[...Array(10)].map((_, i) => (
-          <span key={i} className="inline-flex items-center mx-12 text-black/90 text-sm font-medium font-body tracking-wide">
-            <MessageCircle className="w-4 h-4 mr-2.5 text-pink-200" />
+          <span
+            key={i}
+            className="inline-flex items-center mx-4 text-black/90 text-sm font-medium font-body tracking-wide"
+          >
+            {/* WhatsApp SVG */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 32 32"
+              className="w-8 h-8  fill-green-600"
+            >
+              <path d="M16.02 2.003c-7.73 0-14 6.27-14 14 0 2.47.65 4.88 1.88 7.01L2 30l7.16-1.86A13.93 13.93 0 0 0 16.02 30c7.73 0 14-6.27 14-14s-6.27-13.997-14-13.997zm0 25.43c-2.24 0-4.43-.6-6.35-1.75l-.45-.27-4.25 1.11 1.13-4.13-.29-.47a11.38 11.38 0 0 1-1.74-5.99c0-6.3 5.14-11.43 11.45-11.43 6.31 0 11.45 5.13 11.45 11.43s-5.14 11.43-11.45 11.43zm6.3-8.59c-.35-.18-2.05-1.01-2.37-1.13-.32-.12-.55-.18-.78.18-.23.35-.9 1.13-1.1 1.36-.2.23-.4.26-.75.09-.35-.18-1.46-.54-2.79-1.71-1.03-.92-1.73-2.05-1.93-2.4-.2-.35-.02-.54.15-.71.16-.16.35-.4.52-.6.18-.2.23-.35.35-.58.12-.23.06-.44-.03-.62-.09-.18-.78-1.88-1.07-2.57-.28-.68-.56-.59-.78-.6l-.66-.01c-.23 0-.6.09-.91.44-.31.35-1.2 1.17-1.2 2.85s1.23 3.31 1.4 3.54c.18.23 2.42 3.69 5.86 5.17.82.35 1.46.56 1.96.72.82.26 1.56.22 2.15.13.66-.1 2.05-.84 2.34-1.65.29-.81.29-1.5.2-1.65-.09-.15-.32-.23-.66-.41z" />
+            </svg>
+
             For Orders & Enquiry DM on +91 9104391918
           </span>
         ))}

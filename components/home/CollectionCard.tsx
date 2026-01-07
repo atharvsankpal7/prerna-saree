@@ -44,7 +44,7 @@ const CollectionCard: FC<CollectionCardProps> = ({
 
                     {/* Content */}
                     <div className="mt-4 md:mt-6 text-center pb-2">
-                        <h3 className={`text-2xl md:text-3xl ${montez.className} font-bold text-[#831843] leading-none`}>
+                        <h3 className={`text-sm md:text-xl font-bold text-[#831843] leading-none`}>
                             {title}
                         </h3>
 
