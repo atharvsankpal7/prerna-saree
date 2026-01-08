@@ -25,7 +25,7 @@ async function getData() {
   const categories = await Category.find({}).lean();
   const reviews = await Review.find({ isFeatured: true })
     .sort({ createdAt: -1 })
-    .limit(6)
+    .limit(10)
     .lean();
 
   const sanitizedContent = content ? JSON.parse(JSON.stringify(content)) : null;
