@@ -26,48 +26,23 @@ export default function NewArrivalsCarousel({ products }: NewArrivalsCarouselPro
 
     return (
         <section className="relative  bg-gradient-to-b from-pink-50/50 via-white to-pink-50/30 overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6 mb-5">
-                <div className="flex items-center justify-center gap-2 md:gap-4">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
-                        whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true }}
-                        className="relative w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16 flex-shrink-0"
-                    >
-                        <Image src="/flower.png" alt="flower" fill className="object-contain" />
-                    </motion.div>
-
-                    <motion.h2
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true }}
-                        className={`text-3xl md:text-4xl lg:text-7xl font-bold text-[#93316a] italic text-center`}
-                    >
-                        New Arrivals
-                    </motion.h2>
-
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.5, rotate: 45 }}
-                        whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true }}
-                        className="relative w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16 flex-shrink-0"
-                    >
-                        <Image src="/flower.png" alt="flower" fill className="object-contain" />
-                    </motion.div>
-                </div>
+            <div className="max-w-7xl mx-auto px-6 flex items-center justify-center">
+                <motion.h2
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    viewport={{ once: true }}
+                    className={`text-3xl md:text-4xl lg:text-7xl font-bold text-[#93316a] italic text-center mt-4`}
+                >
+                    New Arrivals
+                </motion.h2>
             </div>
 
             <div className="relative w-full overflow-hidden">
-                <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" />
-                <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
 
                 <motion.div
                     className="flex gap-6 sm:gap-8"
                     style={{
-                        // Ensure the container is wide enough
                         width: 'max-content'
                     }}
                     animate={{
@@ -85,7 +60,7 @@ export default function NewArrivalsCarousel({ products }: NewArrivalsCarouselPro
                     {duplicatedProducts.map((product, index) => (
                         <Link key={`${product._id}-${index}`} href={`/product/${product._id}`}>
                             <motion.div
-                                className="relative flex-shrink-0 w-[165px] sm:w-[210px] md:w-[255px] h-[240px] sm:h-[315px] md:h-[375px] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 group cursor-pointer"
+                                className="relative flex-shrink-0 w-[206px] sm:w-[263px] md:w-[319px] h-[300px] sm:h-[394px] md:h-[469px] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 group cursor-pointer"
                                 whileHover={{ y: -10 }}
                             >
                                 <Image

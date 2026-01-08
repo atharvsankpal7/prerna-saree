@@ -44,7 +44,7 @@ export default function CustomerReviewsSection({ reviews }: CustomerReviewsSecti
                     <span className="text-pink-600 font-body text-sm font-bold tracking-widest uppercase mb-3 block">
                         Testimonials
                     </span>
-                    <h2 className={`text-4xl md:text-5xl lg:text-6xl ${montez.className} font-bold text-[#93316a] tracking-tight leading-tight mb-6`}>
+                    <h2 className={`text-4xl md:text-5xl lg:text-6xl  font-bold text-[#93316a] tracking-tight leading-tight mb-6`}>
                         Loved By Thousands
                     </h2>
 
@@ -66,7 +66,7 @@ export default function CustomerReviewsSection({ reviews }: CustomerReviewsSecti
                 </motion.div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10">
-                    {displayReviews.slice(0, 3).map((review, index) => (
+                    {displayReviews.slice(0, 6).map((review, index) => (
                         <CustomerReviewCard
                             key={review._id}
                             rating={review.rating}
@@ -89,13 +89,7 @@ export default function CustomerReviewsSection({ reviews }: CustomerReviewsSecti
                     <p className="text-gray-500 text-lg mb-8 font-body">
                         Join hundreds of satisfied customers
                     </p>
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="bg-[#93316a] text-white px-10 py-4 rounded-full font-semibold hover:bg-[#7a2858] shadow-lg hover:shadow-xl transition-all font-body tracking-wide"
-                    >
-                        Read More Reviews
-                    </motion.button>
+
                 </motion.div>
             </div>
         </section>

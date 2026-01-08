@@ -22,7 +22,7 @@ export default function InfluencerSection({ videos }: InfluencerSectionProps) {
 
 
     return (
-        <section id="influencer-feedback" className="relative  bg-gradient-to-b from-white via-pink-50/30 to-white overflow-hidden">
+        <section id="influencer-feedback" className="relative mb-5 bg-gradient-to-b from-white via-pink-50/30 to-white overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="text-center mb-5">
                     <div className="flex items-center justify-center gap-2 md:gap-4">
@@ -36,7 +36,7 @@ export default function InfluencerSection({ videos }: InfluencerSectionProps) {
 
                         </motion.div>
 
-                        <h2 className={`text-4xl md:text-5xl lg:text-6xl ${montez.className} font-bold text-[#93316a] leading-tight`}>
+                        <h2 className={`text-4xl md:text-5xl lg:text-6xl ${montez.className} font-bold text-[#93316a] leading-tight mb-4`}>
                             Influencer Feedback
                         </h2>
 

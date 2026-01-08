@@ -46,7 +46,7 @@ export default function CustomerReviewCard({
                 </div>
 
                 <blockquote className="flex-1 mb-8">
-                    <p className={`text-xl ${montez.className} font-medium text-gray-800 leading-relaxed italic`}>
+                    <p className={`text-xl font-medium text-gray-800 leading-relaxed italic`}>
                         "{review}"
                     </p>
                 </blockquote>
@@ -63,7 +63,7 @@ export default function CustomerReviewCard({
                     </div>
 
                     <div className="flex flex-col">
-                        <h3 className={`text-lg font-bold ${montez.className} text-gray-900`}>
+                        <h3 className={`text-lg font-bold text-gray-900`}>
                             {customerName}
                         </h3>
                         <p className="text-gray-500 text-sm font-body">Verified Buyer • {date}</p>

@@ -22,7 +22,7 @@ export default function DispatchMagicSection({ videos }: DispatchMagicSectionPro
     return (
         <section id="dispatch-magic" className="relative  overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="text-center mb-3">
+                <div className="text-center mb-6">
                     <div className="flex items-center justify-center gap-2 md:gap-4">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
@@ -34,7 +34,7 @@ export default function DispatchMagicSection({ videos }: DispatchMagicSectionPro
                             <Image src="/flower.png" alt="flower" fill className="object-contain" />
                         </motion.div>
 
-                        <h2 className={`text-4xl sm:text-5xl md:text-7xl ${montez.className} font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#93316a] via-pink-600 to-[#93316a]  drop-shadow-sm`}>
+                        <h2 className={`text-4xl sm:text-5xl md:text-7xl ${montez.className} font-bold text-transparent bg-clip-text bg-gradient-to-r mx-2 from-[#93316a] via-pink-600 to-[#93316a]  drop-shadow-sm`}>
                             Prerna Magic
                         </h2>
 

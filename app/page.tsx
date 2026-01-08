@@ -10,6 +10,7 @@ import CollectionSection from '@/components/home/CollectionSection';
 import NewArrivalsCarousel from '@/components/home/NewArrivalsCarousel';
 import InstaSection from '@/components/home/InstaSection';
 import HappyClientDiary from '@/components/home/HappyClientDiary';
+import CustomerReviewsSection from '@/components/home/CustomerReviewsSection';
 
 async function getData() {
   await dbConnect();
@@ -52,9 +53,9 @@ export default async function Home() {
       <DispatchMagicSection videos={data.dispatchVideos} />
       <NewArrivalsCarousel products={data.newArrivals} />
       {/* <CustomizeSection /> */}
-      {/* <CustomerReviewsSection reviews={data.reviews} /> */}
       <CollectionSection categories={data.categories} />
       <InstaSection />
+      <CustomerReviewsSection reviews={data.reviews} />
     </main>
   );
 }

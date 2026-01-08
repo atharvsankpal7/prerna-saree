@@ -22,16 +22,13 @@ export default function CollectionSection({ categories }: CollectionSectionProps
     if (!categories || categories.length === 0) return null;
 
     return (
-        <section className="relative py-5  md:py-5 bg-gradient-to-b from-white via-pink-50/30 to-rose-50/30 overflow-hidden">
-            {/* Decorative background elements */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-pink-200/20 to-transparent rounded-full blur-3xl -z-10" />
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-rose-200/20 to-transparent rounded-full blur-3xl -z-10" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,182,193,0.05),transparent_70%)]" />
+        <section className="relative bg-gradient-to-b from-white via-pink-50/30 to-rose-50/30 overflow-hidden">
+
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 {/* Section header */}
                 <div className="text-center mb-4">
-                    <div className="flex items-center justify-center gap-2 md:gap-4">
+                    <div className="flex items-center justify-center gap-2 md:gap-4 mb-6">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
                             whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -72,7 +69,7 @@ export default function CollectionSection({ categories }: CollectionSectionProps
                 </div>
 
                 {/* Bottom CTA */}
-                <div className="mt-4 md:mt-6 text-center">
+                <div className="mt-10 text-center">
                     <Link
                         href="/products"
                         className="group inline-flex items-center justify-center px-8 py-2.5 bg-[#93316a] text-white text-sm font-semibold rounded-full hover:bg-[#7a2858] transition-all duration-300 shadow-md hover:shadow-lg font-body tracking-wide"

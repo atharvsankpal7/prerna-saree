@@ -94,7 +94,7 @@
 }
 
 .animate-marquee {
-  animation: marquee 25s linear infinite;
+  animation: marquee 5s linear infinite;
 }
 
 @layer utilities {
@@ -118,4 +118,8 @@
     scrollbar-width: none;
     /* Firefox */
   }
+}
+
+section {
+  @apply mb-6 md:mb-8;
 }

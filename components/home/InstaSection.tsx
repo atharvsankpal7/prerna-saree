@@ -44,7 +44,7 @@ export default function InstaSection() {
                 className="text-center mb-6"
             >
                 <motion.a
-                    href="https://instagram.com"
+                    href="https://www.instagram.com/prerna_saree/"
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.05 }}
@@ -52,7 +52,7 @@ export default function InstaSection() {
                     className="inline-flex items-center gap-3 bg-[#93316a] hover:bg-[#7a2858] text-white px-8 py-1 rounded-full font-semibold shadow-lg hover:shadow-xl transition-all font-body tracking-wide"
                 >
                     <Instagram className="w-5 h-5" />
-                    Follow @prerna
+                    Follow @prerna_saree
                 </motion.a>
             </motion.div>
             <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -67,7 +67,7 @@ export default function InstaSection() {
                 >
                     <div className="flex items-center justify-between mb-8 px-2">
                         <h3 className={`text-2xl ${montez.className} font-bold text-gray-800`}>Latest from Instagram</h3>
-                        <a href="https://instagram.com" target="_blank" rel="noreferrer" className="text-[#93316a] font-semibold hover:text-[#461934] transition-colors flex items-center gap-2 font-body">
+                        <a href="https://www.instagram.com/prerna_saree/" target="_blank" rel="noreferrer" className="text-[#93316a] font-semibold hover:text-[#461934] transition-colors flex items-center gap-2 font-body">
                             View All <Instagram className="w-4 h-4" />
                         </a>
                     </div>
@@ -80,7 +80,7 @@ export default function InstaSection() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: index * 0.1 }}
                                 viewport={{ once: true }}
-                                className="relative group cursor-pointer w-[75%] h-[75%]"
+                                className="relative group cursor-pointer "
                             >
                                 <div className="relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 bg-white aspect-[9/16] border border-gray-100">
                                     <iframe

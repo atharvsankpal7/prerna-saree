@@ -28,15 +28,15 @@ export default function HappyClientDiary() {
         <section id="dispatch-magic" ref={containerRef} className="relative pb-5 md:pb-5 overflow-hidden ">
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="text-center ">
-                    <div className="flex items-center justify-center gap-2 md:gap-4">
+                    <div className="flex items-center justify-center gap-2 md:gap-4 mb-6">
                         <div
-                            className="relative w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16 flex-shrink-0"
+                            className="relative w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16 flex-shrink-0 "
                         >
-                            <Image src="/flower.png" alt="flower" fill className="object-contain" />
+                            <Image src="/flower.png" alt="flower" fill className="object-contain mb-4 md:mb-6" />
                         </div>
 
                         <h2
-                            className={`text-3xl md:text-7xl ${montez.className} font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#93316a] via-pink-600 to-[#93316a] pb-1  `}
+                            className={`text-3xl md:text-7xl ${montez.className} font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#93316a] via-pink-600 to-[#93316a] pb-1 mx-1 `}
                         >
                             Happy Client Diary
                         </h2>

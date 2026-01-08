@@ -48,8 +48,8 @@ const NavButtons = () => {
     };
 
     return (
-        <section className="">
-            <div className="w-full h-auto mx-auto mb-6 md:mb-8 bg-[#f9cce9] overflow-hidden">
+        <section className="mb-6 md:mb-8">
+            <div className="w-full h-auto mx-auto mb-12 md:mb-12 bg-[#f9cce9] overflow-hidden">
                 <Image
                     src="/LET US KNOW.jpg"
                     alt="LET US KNOW"

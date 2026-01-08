@@ -27,7 +27,8 @@ const CollectionCard: FC<CollectionCardProps> = ({
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
             viewport={{ once: true }}
-            className="group relative w-full h-full"
+            className="group relative w-full h-full scale-125 "
+
         >
             <Link href={`/products?category=${slug}`} className="block w-full h-full">
                 <div className="relative w-full h-full p-3 md:p-4 bg-gradient-to-br from-pink-200 via-pink-100 to-rose-200 shadow-md transition-all duration-500 hover:shadow-xl">
@@ -38,7 +39,7 @@ const CollectionCard: FC<CollectionCardProps> = ({
                             alt={title}
                             fill
                             className="object-cover transition-transform duration-700 group-hover:scale-105"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            sizes="(max-width: 768px) 120vw, (max-width: 1200px) 75vw, 50vw"
                         />
                     </div>
 

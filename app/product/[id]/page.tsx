@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MessageCircle, Star, Plus, X } from 'lucide-react';
+import { MessageCircle, Star, Plus, X, MoveLeft } from 'lucide-react';
 import ProductDetailSkeleton from '@/components/skeletons/ProductDetailSkeleton';
 import { CldUploadWidget } from 'next-cloudinary';
+import { useRouter } from 'next/navigation';
 
 interface Product {
     _id: string;
@@ -18,6 +19,10 @@ interface Product {
         color: string;
         fabric: string;
         design: string;
+    };
+    category: {
+        _id: string;
+        name: string;
     };
 }
 
@@ -32,6 +37,8 @@ interface Review {
 
 export default function ProductDetailPage() {
     const { id } = useParams();
+    const router = useRouter();
+
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
     const [selectedImage, setSelectedImage] = useState('');
@@ -114,6 +121,16 @@ export default function ProductDetailPage() {
     return (
         <div className="min-h-screen bg-[#FFF0F5] py-12 px-4 md:px-8">
             <div className="max-w-7xl mx-auto">
+                <Button
+                    onClick={() => router.back()}
+                    className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-[#93316a] transition-colors"
+                    variant="outline"
+                >
+                    <MoveLeft className="w-4 h-4" /> Go to {product.category.name} Collection
+                </Button>
+            </div>
+
+            <div className="max-w-7xl mx-auto">
                 <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
                     <div className="grid md:grid-cols-2 gap-0">
                         {/* Left: Image Gallery */}
@@ -146,9 +163,7 @@ export default function ProductDetailPage() {
                         {/* Right: Details */}
                         <div className="p-8 md:p-12 flex flex-col justify-center">
                             <div className="mb-8">
-                                <Badge className="bg-pink-100 text-pink-800 hover:bg-pink-200 mb-4 px-3 py-1 text-xs font-body tracking-wider uppercase">
-                                    Premium Collection
-                                </Badge>
+
                                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-[#2b0c1c] mb-6 leading-tight">
                                     {product.name}
                                 </h1>
