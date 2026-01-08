@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MessageCircle, Star, Plus, X, MoveLeft } from 'lucide-react';
+import { MessageCircle, Star, Plus, X, MoveLeft, AlertCircle, RefreshCcw } from 'lucide-react';
 import ProductDetailSkeleton from '@/components/skeletons/ProductDetailSkeleton';
 import { CldUploadWidget } from 'next-cloudinary';
 import { useRouter } from 'next/navigation';
@@ -119,14 +119,17 @@ export default function ProductDetailPage() {
     if (!product) return <div className="text-center py-20 font-heading text-xl">Product not found</div>;
 
     return (
-        <div className="min-h-screen bg-[#FFF0F5] py-12 px-4 md:px-8">
-            <div className="max-w-7xl mx-auto">
+        <div className="min-h-screen bg-[#FFF0F5] pb-12 pt-4 px-4 md:px-8">
+            <div className="max-w-7xl mx-auto  mb-4">
                 <Button
-                    onClick={() => router.back()}
-                    className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-[#93316a] transition-colors"
-                    variant="outline"
+                    variant="ghost"
+                    onClick={() => router.push(`/products?category=${product.category.name}`)}
+                    className="group flex items-center gap-3 text-[#93316a] bg-white transition-all duration-300 rounded-full pl-2 pr-6"
                 >
-                    <MoveLeft className="w-4 h-4" /> Go to {product.category.name} Collection
+                    <div className="bg-white p-2 rounded-full shadow-sm group-hover:shadow transition-all">
+                        <MoveLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                    </div>
+                    <span className="font-bold text-sm">Back to {product.category.name}</span>
                 </Button>
             </div>
 
@@ -134,15 +137,15 @@ export default function ProductDetailPage() {
                 <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
                     <div className="grid md:grid-cols-2 gap-0">
                         {/* Left: Image Gallery */}
-                        <div className="p-6 md:p-8 bg-gray-50">
-                            <div className="flex gap-4 h-[500px] md:h-[600px]">
+                        <div className="p-4 md:p-8 bg-gray-50">
+                            <div className="flex flex-col-reverse md:flex-row gap-4 h-auto md:h-[600px]">
                                 {/* Thumbnails */}
-                                <div className="flex flex-col gap-3 w-20 overflow-y-auto no-scrollbar py-1">
+                                <div className="flex flex-row md:flex-col gap-3 w-full md:w-20 overflow-x-auto md:overflow-y-auto scrollbar-hide py-1 h-24 md:h-full shrink-0">
                                     {product.images.map((img, idx) => (
                                         <button
                                             key={idx}
                                             onClick={() => setSelectedImage(img)}
-                                            className={`relative aspect-[3/4] rounded-lg overflow-hidden transition-all duration-300 ${selectedImage === img ? 'ring-2 ring-[#93316a] ring-offset-2' : 'opacity-70 hover:opacity-100'}`}
+                                            className={`relative aspect-[3/4] w-16 md:w-full shrink-0 rounded-lg overflow-hidden transition-all duration-300 ${selectedImage === img ? 'ring-2 ring-[#93316a] ring-offset-2' : 'opacity-70 hover:opacity-100'}`}
                                         >
                                             <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-contain" />
                                         </button>
@@ -150,7 +153,7 @@ export default function ProductDetailPage() {
                                 </div>
 
                                 {/* Main Image */}
-                                <div className="flex-1 relative rounded-2xl overflow-hidden shadow-sm">
+                                <div className="flex-1 relative rounded-2xl overflow-hidden shadow-sm w-full aspect-[3/4] md:aspect-auto min-h-[400px] md:min-h-0">
                                     <img
                                         src={selectedImage}
                                         alt={product.name}
@@ -161,9 +164,12 @@ export default function ProductDetailPage() {
                         </div>
 
                         {/* Right: Details */}
-                        <div className="p-8 md:p-12 flex flex-col justify-center">
+                        <div className="py-1 px-8 md:p-12 flex flex-col justify-center">
                             <div className="mb-8">
-
+                                <div className="flex items-baseline gap-2 mb-5">
+                                    <span className="text-3xl md:text-4xl font-heading font-bold text-[#93316a]">₹{product.price}</span>
+                                    <span className="text-sm font-medium text-blue-900">+ Shipping Charges</span>
+                                </div>
                                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-[#2b0c1c] mb-6 leading-tight">
                                     {product.name}
                                 </h1>
@@ -181,10 +187,26 @@ export default function ProductDetailPage() {
                                 </ul>
                             </div>
 
-                            <div className="mt-auto">
-                                <div className="flex items-center gap-4 mb-8">
-                                    <span className="text-3xl md:text-4xl font-heading font-bold text-[#93316a]">₹{product.price}</span>
+                            {/* Return & Exchange Policy */}
+                            <div className="grid grid-cols-1 gap-4 mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                                <div className="flex items-start gap-3">
+                                    <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                                    <div>
+                                        <span className="font-bold text-gray-900 text-sm block">No Return Or Refund</span>
+                                        <p className="text-xs text-gray-500 mt-0.5">Please review the product details carefully before purchasing.</p>
+                                    </div>
                                 </div>
+                                <div className="flex items-start gap-3">
+                                    <RefreshCcw className="w-5 h-5 text-[#93316a] shrink-0 mt-0.5" />
+                                    <div>
+                                        <span className="font-bold text-gray-900 text-sm block">Exchange Policy</span>
+                                        <p className="text-xs text-gray-500 mt-0.5">Exchange available only in case of damage or defective product received.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-auto">
+
 
                                 <Button
                                     onClick={handleOrder}

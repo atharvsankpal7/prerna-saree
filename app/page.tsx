@@ -3,6 +3,7 @@ import { SiteContent } from '@/models/SiteContent';
 import { Product } from '@/models/Product';
 import { Category } from '@/models/Category';
 import { Review } from '@/models/Review';
+import HeroVideo from '@/components/home/HeroVideo';
 import NavButtons from '@/components/home/NavButtons';
 import InfluencerSection from '@/components/home/InfluencerSection';
 import DispatchMagicSection from '@/components/home/PrernaMagicSection';
@@ -46,7 +47,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-white">
-      {/* <HeroSection images={data.heroImages} /> */}
+      <HeroVideo />
       <NavButtons />
       <InfluencerSection videos={data.influencerVideos} />
       <HappyClientDiary />

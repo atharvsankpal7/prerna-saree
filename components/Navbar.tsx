@@ -27,10 +27,10 @@ export default function Navbar() {
 
         {/* Center: Brand Name */}
         <div className="flex flex-col items-center justify-center absolute left-1/2 transform -translate-x-1/2 z-40 w-full pointer-events-none">
-          <h1 className={`text-2xl md:text-5xl font-bold text-black mb-0 md:mb-1 ${montez.className} tracking-wide`}>
+          <h1 className={`text-3xl pt-4 md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#93316a] via-pink-600 to-[#93316a] ${montez.className} tracking-wide drop-shadow-sm font-bold`}>
             प्रेरणा
           </h1>
-          <span className="text-[10px] md:text-sm text-black font-serif tracking-widest uppercase">
+          <span className={`text-[12px] translate-x-10 -translate-y-2  text-blue-900/80 italic font-semibold tracking-[0.1em] `}>
             By 3 Sisters
           </span>
         </div>
