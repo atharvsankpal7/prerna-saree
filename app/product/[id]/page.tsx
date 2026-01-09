@@ -140,7 +140,7 @@ export default function ProductDetailPage() {
                         <div className="p-4 md:p-8 bg-gray-50">
                             <div className="flex flex-col-reverse md:flex-row gap-4 h-auto md:h-[600px]">
                                 {/* Thumbnails */}
-                                <div className="flex flex-row md:flex-col gap-3 w-full md:w-20 overflow-x-auto md:overflow-y-auto scrollbar-hide py-1 h-24 md:h-full shrink-0">
+                                <div className="flex flex-row md:flex-col gap-3 w-full md:w-20 overflow-x-auto md:overflow-y-auto py-1 h-24 md:h-full shrink-0 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
                                     {product.images.map((img, idx) => (
                                         <button
                                             key={idx}
@@ -153,11 +153,11 @@ export default function ProductDetailPage() {
                                 </div>
 
                                 {/* Main Image */}
-                                <div className="flex-1 relative rounded-2xl overflow-hidden shadow-sm w-full aspect-[3/4] md:aspect-auto min-h-[400px] md:min-h-0">
+                                <div className="flex-1 relative rounded-2xl overflow-hidden shadow-sm w-full max-w-full aspect-[3/4] md:aspect-auto min-h-[400px] md:min-h-0 bg-white">
                                     <img
                                         src={selectedImage}
                                         alt={product.name}
-                                        className="w-full h-full object-contain"
+                                        className="w-full h-full object-contain max-w-full max-h-full mx-auto"
                                     />
                                 </div>
                             </div>

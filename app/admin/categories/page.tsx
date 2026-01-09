@@ -6,7 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Trash2, Plus, Image as ImageIcon } from 'lucide-react';
+import { Trash2, Plus, Image as ImageIcon, Pencil } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { CldUploadWidget } from 'next-cloudinary';
 import { Loader } from '@/components/ui/loader';
@@ -25,6 +26,11 @@ export default function CategoriesPage() {
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(true);
     const [deletingId, setDeletingId] = useState<string | null>(null);
+    const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+    const [editName, setEditName] = useState('');
+    const [editImage, setEditImage] = useState('');
+    const [updating, setUpdating] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { toast } = useToast();
 
     useEffect(() => {
@@ -87,6 +93,37 @@ export default function CategoriesPage() {
             toast({ variant: 'destructive', title: 'Error', description: 'Failed to delete category' });
         } finally {
             setDeletingId(null);
+        }
+    };
+
+    const handleEditClick = (category: Category) => {
+        setEditingCategory(category);
+        setEditName(category.name);
+        setEditImage(category.image);
+        setIsDialogOpen(true);
+    };
+
+    const handleUpdate = async () => {
+        if (!editingCategory) return;
+        setUpdating(true);
+        try {
+            const res = await fetch(`/api/categories/${editingCategory._id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: editName, image: editImage }),
+            });
+
+            if (res.ok) {
+                toast({ title: 'Success', description: 'Category updated' });
+                setIsDialogOpen(false);
+                fetchCategories();
+            } else {
+                toast({ variant: 'destructive', title: 'Error', description: 'Failed to update category' });
+            }
+        } catch (error) {
+            toast({ variant: 'destructive', title: 'Error', description: 'Something went wrong' });
+        } finally {
+            setUpdating(false);
         }
     };
 
@@ -170,15 +207,24 @@ export default function CategoriesPage() {
                                             </TableCell>
                                             <TableCell className="font-medium">{category.name}</TableCell>
                                             <TableCell className="text-right">
-                                                <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    className="text-red-500 hover:text-red-600"
-                                                    onClick={() => handleDelete(category._id)}
-                                                    disabled={deletingId === category._id}
-                                                >
-                                                    {deletingId === category._id ? <Loader size={16} /> : <Trash2 className="w-4 h-4" />}
-                                                </Button>
+                                                <div className="flex justify-end gap-2">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        onClick={() => handleEditClick(category)}
+                                                    >
+                                                        <Pencil className="w-4 h-4" />
+                                                    </Button>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="text-red-500 hover:text-red-600"
+                                                        onClick={() => handleDelete(category._id)}
+                                                        disabled={deletingId === category._id}
+                                                    >
+                                                        {deletingId === category._id ? <Loader size={16} /> : <Trash2 className="w-4 h-4" />}
+                                                    </Button>
+                                                </div>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -195,6 +241,51 @@ export default function CategoriesPage() {
                     </CardContent>
                 </Card>
             </div>
+
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Edit Category</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                        <div className="space-y-2">
+                            <Label>Category Name</Label>
+                            <Input
+                                value={editName}
+                                onChange={(e) => setEditName(e.target.value)}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Cover Image</Label>
+                            <div className="flex items-center gap-4">
+                                {editImage && (
+                                    <img src={editImage} alt="Preview" className="w-20 h-20 object-cover rounded-md" />
+                                )}
+                                <CldUploadWidget
+                                    uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "prerna_preset"}
+                                    onSuccess={(result: any) => {
+                                        setEditImage(result.info.secure_url);
+                                    }}
+                                >
+                                    {({ open }) => (
+                                        <Button type="button" variant="outline" onClick={() => open()}>
+                                            <ImageIcon className="w-4 h-4 mr-2" />
+                                            Change Image
+                                        </Button>
+                                    )}
+                                </CldUploadWidget>
+                            </div>
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+                        <Button onClick={handleUpdate} disabled={updating}>
+                            {updating ? <Loader className="mr-2" size={16} /> : null}
+                            Update
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
