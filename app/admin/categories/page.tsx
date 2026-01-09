@@ -242,8 +242,12 @@ export default function CategoriesPage() {
                 </Card>
             </div>
 
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogContent>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} modal={false}>
+                <DialogContent
+                    className="pointer-events-auto"
+                    onInteractOutside={(e) => e.preventDefault()}
+                >
+
                     <DialogHeader>
                         <DialogTitle>Edit Category</DialogTitle>
                     </DialogHeader>
