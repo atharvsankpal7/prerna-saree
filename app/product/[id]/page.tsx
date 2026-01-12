@@ -138,27 +138,27 @@ export default function ProductDetailPage() {
                     <div className="grid md:grid-cols-2 gap-0">
                         {/* Left: Image Gallery */}
                         <div className="p-4 md:p-8 bg-gray-50">
-                            <div className="flex flex-col-reverse md:flex-row gap-4 h-auto md:h-[600px]">
+                            <div className="flex flex-col gap-6">
+                                {/* Main Image */}
+                                <div className="relative rounded-2xl overflow-hidden shadow-sm w-full bg-white min-h-[400px] md:min-h-[500px] flex items-center justify-center">
+                                    <img
+                                        src={selectedImage}
+                                        alt={product.name}
+                                        className="w-full h-full object-contain max-h-[600px]"
+                                    />
+                                </div>
+
                                 {/* Thumbnails */}
-                                <div className="flex flex-row md:flex-col gap-3 w-full md:w-20 overflow-x-auto md:overflow-y-auto py-1 h-24 md:h-full shrink-0 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+                                <div className="grid grid-cols-4 gap-4">
                                     {product.images.map((img, idx) => (
                                         <button
                                             key={idx}
                                             onClick={() => setSelectedImage(img)}
-                                            className={`relative aspect-[3/4] w-16 md:w-full shrink-0 rounded-lg overflow-hidden transition-all duration-300 ${selectedImage === img ? 'ring-2 ring-[#93316a] ring-offset-2' : 'opacity-70 hover:opacity-100'}`}
+                                            className={`relative aspect-[3/4] w-full rounded-lg overflow-hidden transition-all duration-300 ${selectedImage === img ? 'ring-2 ring-[#93316a] ring-offset-2' : 'opacity-70 hover:opacity-100'}`}
                                         >
-                                            <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-contain" />
+                                            <img src={img} alt={`Thumbnail ${idx}`} className="w-full h-full object-cover" />
                                         </button>
                                     ))}
-                                </div>
-
-                                {/* Main Image */}
-                                <div className="flex-1 relative rounded-2xl overflow-hidden shadow-sm w-full max-w-full aspect-[3/4] md:aspect-auto min-h-[400px] md:min-h-0 bg-white">
-                                    <img
-                                        src={selectedImage}
-                                        alt={product.name}
-                                        className="w-full h-full object-contain max-w-full max-h-full mx-auto"
-                                    />
                                 </div>
                             </div>
                         </div>
