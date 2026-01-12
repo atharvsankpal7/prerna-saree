@@ -19,7 +19,7 @@ export async function GET(req: Request) {
       }
     }
 
-    const products = await Product.find(query).sort({ createdAt: -1 });
+    const products = await Product.find(query).sort({ createdAt: -1 }).populate('category');
     return NextResponse.json(products);
   } catch (error) {
     console.error('API Error:', error);
