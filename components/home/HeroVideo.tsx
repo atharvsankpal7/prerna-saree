@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 
 export default function HeroVideo() {
@@ -13,6 +13,28 @@ export default function HeroVideo() {
             setIsMuted(!isMuted);
         }
     };
+
+    useEffect(() => {
+        if (!videoRef.current) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting && videoRef.current) {
+                        videoRef.current.muted = true;
+                        setIsMuted(true);
+                    }
+                });
+            },
+            { threshold: 0.2 }
+        );
+
+        observer.observe(videoRef.current);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
 
     return (
         <section className="relative w-full h-full pt-4 md:h-screen overflow-hidden group">

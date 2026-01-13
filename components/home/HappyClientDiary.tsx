@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Play, X } from 'lucide-react';
 import { Montez } from 'next/font/google';
 import Image from 'next/image';
@@ -10,7 +10,29 @@ const montez = Montez({ subsets: ['latin'], weight: '400' });
 
 export default function HappyClientDiary() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
     const [isPlaying, setIsPlaying] = useState(false);
+
+    useEffect(() => {
+        if (!isPlaying || !videoRef.current) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting && videoRef.current) {
+                        videoRef.current.muted = true;
+                    }
+                });
+            },
+            { threshold: 0.2 }
+        );
+
+        observer.observe(videoRef.current);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [isPlaying]);
 
     return (
         <section id="dispatch-magic" ref={containerRef} className="relative pb-5 md:pb-5 overflow-hidden ">
@@ -42,7 +64,7 @@ export default function HappyClientDiary() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8 }}
                     viewport={{ once: true }}
-                    className="relative w-full max-w-sm mx-auto aspect-[9/16] rounded-3xl overflow-hidden shadow-2xl bg-black cursor-pointer group"
+                    className="relative w-full aspect-[16/9] rounded-3xl overflow-hidden shadow-2xl bg-black cursor-pointer group h-[800px] w-full"
                     onClick={() => setIsPlaying(true)}
                 >
                     {!isPlaying ? (
@@ -61,6 +83,7 @@ export default function HappyClientDiary() {
                     ) : (
                         <div className="absolute inset-0 z-20 bg-black">
                             <video
+                                ref={videoRef}
                                 src="/diary.mp4"
                                 className="w-full h-full object-cover"
                                 controls
