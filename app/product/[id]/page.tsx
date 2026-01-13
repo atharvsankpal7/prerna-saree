@@ -23,6 +23,7 @@ interface Product {
     category: {
         _id: string;
         name: string;
+        slug: string;
     };
 }
 
@@ -123,7 +124,7 @@ export default function ProductDetailPage() {
             <div className="max-w-7xl mx-auto  mb-4">
                 <Button
                     variant="ghost"
-                    onClick={() => router.push(`/products?category=${product.category.name}`)}
+                    onClick={() => router.push(`/products?category=${product.category.slug}`)}
                     className="group flex items-center gap-3 text-[#93316a] bg-white transition-all duration-300 rounded-full pl-2 pr-6"
                 >
                     <div className="bg-white p-2 rounded-full shadow-sm group-hover:shadow transition-all">
