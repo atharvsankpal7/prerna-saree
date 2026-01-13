@@ -64,7 +64,7 @@ export default function HappyClientDiary() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8 }}
                     viewport={{ once: true }}
-                    className="relative w-full aspect-[16/9] rounded-3xl overflow-hidden shadow-2xl bg-black cursor-pointer group "
+                    className="relative w-full aspect-[80/67] rounded-3xl overflow-hidden shadow-2xl bg-black cursor-pointer group "
                     onClick={() => setIsPlaying(true)}
                 >
                     {!isPlaying ? (
