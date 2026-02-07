@@ -3,6 +3,7 @@ import dbConnect from '@/lib/mongodb';
 import { Review } from '@/models/Review';
 import { getServerSession } from 'next-auth';
 import { GET as authOptions } from '../auth/[...nextauth]/route';
+import { deleteManyLocalUploadFiles } from '@/lib/local-images';
 
 export async function GET(req: Request) {
   await dbConnect();
@@ -76,6 +77,15 @@ export async function DELETE(req: Request) {
 
     if (!id) {
       return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+    }
+
+    const review = await Review.findById(id);
+    if (!review) {
+      return NextResponse.json({ error: 'Review not found' }, { status: 404 });
+    }
+
+    if (review.images?.length > 0) {
+      await deleteManyLocalUploadFiles(review.images);
     }
 
     await Review.findByIdAndDelete(id);

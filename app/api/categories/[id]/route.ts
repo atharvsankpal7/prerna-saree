@@ -3,17 +3,7 @@ import dbConnect from '@/lib/mongodb';
 import { Category } from '@/models/Category';
 import { getServerSession } from 'next-auth';
 import { GET as authOptions } from '../../auth/[...nextauth]/route';
-import cloudinary from '@/lib/cloudinary';
-
-const getPublicIdFromUrl = (url: string) => {
-    try {
-        const regex = /\/upload\/(?:v\d+\/)?(.+)\.[^.]+$/;
-        const match = url.match(regex);
-        return match ? match[1] : null;
-    } catch (e) {
-        return null;
-    }
-};
+import { deleteLocalUploadFile } from '@/lib/local-images';
 
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
     const session = await getServerSession(authOptions);
@@ -32,11 +22,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         }
 
         if (category.image !== image) {
-            // Image has changed, delete the old one
-            const publicId = getPublicIdFromUrl(category.image);
-            if (publicId) {
-                await cloudinary.uploader.destroy(publicId);
-            }
+            await deleteLocalUploadFile(category.image);
         }
 
         category.name = name;
@@ -65,11 +51,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         return NextResponse.json({ error: 'Category not found' }, { status: 404 });
     }
 
-    // Delete image from Cloudinary
-    const publicId = getPublicIdFromUrl(category.image);
-    if (publicId) {
-        await cloudinary.uploader.destroy(publicId);
-    }
+    await deleteLocalUploadFile(category.image);
 
     await Category.findByIdAndDelete(id);
     return NextResponse.json({ message: 'Category deleted' });

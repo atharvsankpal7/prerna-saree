@@ -8,10 +8,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Trash2, Plus, Image as ImageIcon, X, Edit } from 'lucide-react';
+import { Trash2, Edit } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { CldUploadWidget } from 'next-cloudinary';
 import { Loader } from '@/components/ui/loader';
+import LocalImageUploader from '@/components/admin/LocalImageUploader';
 
 interface Category {
     _id: string;
@@ -204,32 +204,15 @@ export default function ProductsPage() {
 
                             <div className="space-y-2">
                                 <Label>Images (First is primary)</Label>
-                                <div className="flex flex-wrap gap-2 mb-2">
-                                    {images.map((img, idx) => (
-                                        <div key={idx} className="relative group">
-                                            <img src={img} alt="Product" className="w-20 h-20 object-cover rounded-md border" />
-                                            <button
-                                                type="button"
-                                                onClick={() => setImages(images.filter((_, i) => i !== idx))}
-                                                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
-                                            >
-                                                <X className="w-3 h-3" />
-                                            </button>
-                                        </div>
-                                    ))}
-                                    <CldUploadWidget
-                                        uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "prerna_preset"}
-                                        onSuccess={(result: any) => {
-                                            setImages((prev) => [...prev, result.info.secure_url]);
-                                        }}
-                                    >
-                                        {({ open }) => (
-                                            <Button type="button" variant="outline" className="h-20 w-20" onClick={() => open()}>
-                                                <Plus className="w-6 h-6 text-muted-foreground" />
-                                            </Button>
-                                        )}
-                                    </CldUploadWidget>
-                                </div>
+                                <LocalImageUploader
+                                    folder="products"
+                                    value={images}
+                                    onChange={setImages}
+                                    multiple
+                                    maxFiles={10}
+                                    disabled={loading}
+                                    buttonLabel="Upload Product Image"
+                                />
                             </div>
 
                             <div className="space-y-2">

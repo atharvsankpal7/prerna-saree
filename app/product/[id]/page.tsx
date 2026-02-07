@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MessageCircle, Star, Plus, X, MoveLeft, AlertCircle, RefreshCcw } from 'lucide-react';
+import { MessageCircle, Star, X, MoveLeft, AlertCircle, RefreshCcw } from 'lucide-react';
 import ProductDetailSkeleton from '@/components/skeletons/ProductDetailSkeleton';
-import { CldUploadWidget } from 'next-cloudinary';
 import { useRouter } from 'next/navigation';
+import LocalImageUploader from '@/components/admin/LocalImageUploader';
 
 interface Product {
     _id: string;
@@ -92,8 +92,6 @@ export default function ProductDetailPage() {
 
     const fetchProduct = async () => {
         try {
-            const res = await fetch(`/api/products?id=${id}`);
-
             const response = await fetch(`/api/products/${id}`);
             if (response.ok) {
                 const data = await response.json();
@@ -299,36 +297,15 @@ export default function ProductDetailPage() {
 
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Add Photos</label>
-                                        <div className="flex flex-wrap gap-2 mb-2">
-                                            {newReview.images.map((img, idx) => (
-                                                <div key={idx} className="relative group">
-                                                    <img src={img} alt="Review Upload" className="w-16 h-16 object-cover rounded-md border" />
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setNewReview({ ...newReview, images: newReview.images.filter((_, i) => i !== idx) })}
-                                                        className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
-                                                    >
-                                                        <X className="w-3 h-3" />
-                                                    </button>
-                                                </div>
-                                            ))}
-                                            <CldUploadWidget
-                                                uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "prerna_preset"}
-                                                onSuccess={(result: any) => {
-                                                    setNewReview((prev) => ({ ...prev, images: [...prev.images, result.info.secure_url] }));
-                                                }}
-                                            >
-                                                {({ open }) => (
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => open()}
-                                                        className="w-16 h-16 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-md hover:border-pink-400 transition-colors"
-                                                    >
-                                                        <Plus className="w-5 h-5 text-gray-400" />
-                                                    </button>
-                                                )}
-                                            </CldUploadWidget>
-                                        </div>
+                                        <LocalImageUploader
+                                            folder="reviews"
+                                            value={newReview.images}
+                                            onChange={(images) => setNewReview((prev) => ({ ...prev, images }))}
+                                            multiple
+                                            maxFiles={5}
+                                            disabled={submittingReview}
+                                            buttonLabel="Upload Review Photo"
+                                        />
                                     </div>
                                     <Button
                                         type="submit"

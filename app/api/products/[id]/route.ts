@@ -4,18 +4,7 @@ import { Product } from '@/models/Product';
 import '@/models/Category';
 import { getServerSession } from 'next-auth';
 import { GET as authOptions } from '../../auth/[...nextauth]/route';
-import cloudinary from '@/lib/cloudinary';
-
-const getPublicIdFromUrl = (url: string) => {
-    try {
-        const regex = /\/upload\/(?:v\d+\/)?(.+)\.[^.]+$/;
-        const match = url.match(regex);
-        return match ? match[1] : null;
-    } catch (e) {
-        console.error('Error extracting publicId:', e);
-        return null;
-    }
-};
+import { deleteManyLocalUploadFiles } from '@/lib/local-images';
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
   await dbConnect();
@@ -47,28 +36,8 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
-    // Delete all images associated with the product
-    if (product.images && product.images.length > 0) {
-        console.log('Deleting images:', product.images);
-        
-        const deletePromises = product.images.map(async (url: string) => {
-            const publicId = getPublicIdFromUrl(url);
-            console.log('Extracted publicId:', publicId, 'from URL:', url);
-            
-            if (publicId) {
-                try {
-                    const result = await cloudinary.uploader.destroy(publicId);
-                    console.log('Cloudinary delete result:', result);
-                    return result;
-                } catch (error) {
-                    console.error('Error deleting from cloudinary:', error);
-                    return null;
-                }
-            }
-            return null;
-        });
-        
-        await Promise.all(deletePromises);
+    if (product.images?.length > 0) {
+      await deleteManyLocalUploadFiles(product.images);
     }
 
     await Product.findByIdAndDelete(id);
@@ -102,26 +71,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     const imagesToDelete = oldImages.filter((img: string) => !newImages.includes(img));
 
     if (imagesToDelete.length > 0) {
-        console.log('Images to delete:', imagesToDelete);
-        
-        const deletePromises = imagesToDelete.map(async (url: string) => {
-            const publicId = getPublicIdFromUrl(url);
-            console.log('Extracted publicId:', publicId, 'from URL:', url);
-            
-            if (publicId) {
-                try {
-                    const result = await cloudinary.uploader.destroy(publicId);
-                    console.log('Cloudinary delete result:', result);
-                    return result;
-                } catch (error) {
-                    console.error('Error deleting from cloudinary:', error);
-                    return null;
-                }
-            }
-            return null;
-        });
-        
-        await Promise.all(deletePromises);
+      await deleteManyLocalUploadFiles(imagesToDelete);
     }
 
     const product = await Product.findByIdAndUpdate(id, body, { new: true });

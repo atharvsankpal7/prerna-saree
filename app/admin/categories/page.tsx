@@ -6,11 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Trash2, Plus, Image as ImageIcon, Pencil } from 'lucide-react';
+import { Trash2, Pencil } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { CldUploadWidget } from 'next-cloudinary';
 import { Loader } from '@/components/ui/loader';
+import LocalImageUploader from '@/components/admin/LocalImageUploader';
 
 interface Category {
     _id: string;
@@ -149,24 +149,13 @@ export default function CategoriesPage() {
                             </div>
                             <div className="space-y-2">
                                 <Label>Cover Image</Label>
-                                <div className="flex items-center gap-4">
-                                    {image && (
-                                        <img src={image} alt="Preview" className="w-20 h-20 object-cover rounded-md" />
-                                    )}
-                                    <CldUploadWidget
-                                        uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "prerna_preset"}
-                                        onSuccess={(result: any) => {
-                                            setImage(result.info.secure_url);
-                                        }}
-                                    >
-                                        {({ open }) => (
-                                            <Button type="button" variant="outline" onClick={() => open()}>
-                                                <ImageIcon className="w-4 h-4 mr-2" />
-                                                Upload Image
-                                            </Button>
-                                        )}
-                                    </CldUploadWidget>
-                                </div>
+                                <LocalImageUploader
+                                    folder="categories"
+                                    value={image ? [image] : []}
+                                    onChange={(urls) => setImage(urls[0] || '')}
+                                    disabled={loading}
+                                    buttonLabel="Upload Category Image"
+                                />
                             </div>
                             <Button type="submit" disabled={loading} className="w-full">
                                 {loading ? <Loader className="mr-2" size={16} /> : null}
@@ -261,24 +250,13 @@ export default function CategoriesPage() {
                         </div>
                         <div className="space-y-2">
                             <Label>Cover Image</Label>
-                            <div className="flex items-center gap-4">
-                                {editImage && (
-                                    <img src={editImage} alt="Preview" className="w-20 h-20 object-cover rounded-md" />
-                                )}
-                                <CldUploadWidget
-                                    uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "prerna_preset"}
-                                    onSuccess={(result: any) => {
-                                        setEditImage(result.info.secure_url);
-                                    }}
-                                >
-                                    {({ open }) => (
-                                        <Button type="button" variant="outline" onClick={() => open()}>
-                                            <ImageIcon className="w-4 h-4 mr-2" />
-                                            Change Image
-                                        </Button>
-                                    )}
-                                </CldUploadWidget>
-                            </div>
+                            <LocalImageUploader
+                                folder="categories"
+                                value={editImage ? [editImage] : []}
+                                onChange={(urls) => setEditImage(urls[0] || '')}
+                                disabled={updating}
+                                buttonLabel="Change Image"
+                            />
                         </div>
                     </div>
                     <DialogFooter>
