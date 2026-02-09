@@ -13,6 +13,11 @@ import InstaSection from '@/components/home/InstaSection';
 import HappyClientDiary from '@/components/home/HappyClientDiary';
 import CustomerReviewsSection from '@/components/home/CustomerReviewsSection';
 
+const LOCAL_UPLOAD_PREFIX = '/uploads/';
+
+const isLocalUploadUrl = (value: unknown): value is string =>
+  typeof value === 'string' && value.startsWith(LOCAL_UPLOAD_PREFIX);
+
 async function getData() {
   await dbConnect();
 
@@ -29,14 +34,35 @@ async function getData() {
     .lean();
 
   const sanitizedContent = content ? JSON.parse(JSON.stringify(content)) : null;
+  const serializedNewArrivals = JSON.parse(JSON.stringify(newArrivals));
+  const serializedCategories = JSON.parse(JSON.stringify(categories));
+  const serializedReviews = JSON.parse(JSON.stringify(reviews));
+
+  const newArrivalsWithLocalImages = serializedNewArrivals
+    .map((product: any) => ({
+      ...product,
+      images: Array.isArray(product.images) ? product.images.filter(isLocalUploadUrl) : [],
+    }))
+    .filter((product: any) => product.images.length > 0);
+
+  const categoriesWithLocalImages = serializedCategories.map((category: any) => ({
+    ...category,
+    image: isLocalUploadUrl(category.image) ? category.image : '/logo.png',
+  }));
+
+  const featuredReviewsWithLocalImages = serializedReviews.map((review: any) => ({
+    ...review,
+    userImage: isLocalUploadUrl(review.userImage) ? review.userImage : undefined,
+    images: Array.isArray(review.images) ? review.images.filter(isLocalUploadUrl) : [],
+  }));
 
   return {
     heroImages: sanitizedContent?.heroImages || [],
     influencerVideos: sanitizedContent?.influencerVideos || [],
     dispatchVideos: sanitizedContent?.dispatchVideos || [],
-    newArrivals: JSON.parse(JSON.stringify(newArrivals)),
-    categories: JSON.parse(JSON.stringify(categories)),
-    reviews: JSON.parse(JSON.stringify(reviews)),
+    newArrivals: newArrivalsWithLocalImages,
+    categories: categoriesWithLocalImages,
+    reviews: featuredReviewsWithLocalImages,
   };
 }
 

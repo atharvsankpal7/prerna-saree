@@ -54,7 +54,7 @@ export default function CustomerReviewCard({
                 <div className="flex items-center gap-5 mt-auto border-t border-gray-100 pt-6">
                     <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-pink-200 flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
                         <Image
-                            src={imageUrl || 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400'} // Fallback
+                            src={imageUrl || '/logo.png'}
                             alt={customerName}
                             fill
                             className="object-contain"
