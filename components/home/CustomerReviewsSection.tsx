@@ -72,7 +72,15 @@ export default function CustomerReviewsSection({ reviews }: CustomerReviewsSecti
                             rating={review.rating}
                             review={review.comment}
                             customerName={review.userName}
-                            date={format(new Date(review.createdAt), 'dd/MM/yyyy')}
+                            date={(() => {
+                                try {
+                                    const date = new Date(review.createdAt);
+                                    if (isNaN(date.getTime())) return format(new Date(), 'dd/MM/yyyy');
+                                    return format(date, 'dd/MM/yyyy');
+                                } catch (error) {
+                                    return format(new Date(), 'dd/MM/yyyy');
+                                }
+                            })()}
                             imageUrl={review.userImage || (review.images && review.images.length > 0 ? review.images[0] : undefined)}
                             index={index}
                         />
